@@ -2,7 +2,7 @@
 
 ## Summary
 
-Build a standalone Python ML pipeline under `ml/sponsor_detection/`. Android integration remains out of scope. The model will convert timestamped transcripts into paid-sponsor skip ranges.
+Build a standalone Python ML pipeline under ``. Android integration remains out of scope. The model will convert timestamped transcripts into paid-sponsor skip ranges.
 
 Do not train a text encoder from scratch for v1. Fine-tune pretrained bidirectional encoders, with optional YouTube-domain masked-language pretraining and teacher distillation only when controlled experiments justify them.
 
@@ -88,12 +88,12 @@ Each training example will expose cue text and timing, BILOU labels, boundary ta
 ### Ready-to-run bootstrap commands
 
 ```bash
-ml/sponsor_detection/.venv/bin/sponsor-detection data build-training-dataset \
-  --config ml/sponsor_detection/config/training_dataset.toml
-ml/sponsor_detection/.venv/bin/sponsor-detection data validate-tokenization \
-  --config ml/sponsor_detection/config/train_ettin_17m.toml
-ml/sponsor_detection/.venv/bin/sponsor-detection train \
-  --config ml/sponsor_detection/config/train_ettin_17m.toml
+.venv/bin/sponsor-detection data build-training-dataset \
+  --config config/training_dataset.toml
+.venv/bin/sponsor-detection data validate-tokenization \
+  --config config/train_ettin_17m.toml
+.venv/bin/sponsor-detection train \
+  --config config/train_ettin_17m.toml
 ```
 
 ## Implementation order

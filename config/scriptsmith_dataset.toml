@@ -1,15 +1,15 @@
 [scriptsmith_dataset]
-subtitles_directory = "ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/subtitles"
-metadata_directory = "ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/video_metadata"
+subtitles_directory = "data/external/scriptsmith_sponsorblock_2024/subtitles"
+metadata_directory = "data/external/scriptsmith_sponsorblock_2024/video_metadata"
 mirror_path = "sb-mirror/sponsorTimes.csv"
-provenance_path = "ml/sponsor_detection/reports/scriptsmith_dataset_provenance.json"
+provenance_path = "reports/scriptsmith_dataset_provenance.json"
 exclude_split_directories = [
-    "ml/sponsor_detection/data/training/sponsor_windows_v1",
-    "ml/sponsor_detection/data/training/sponsor_windows_v2",
-    "ml/sponsor_detection/data/training/sponsor_windows_v3_replay",
+    "data/training/sponsor_windows_v1",
+    "data/training/sponsor_windows_v2",
+    "data/training/sponsor_windows_v3_replay",
 ]
-output_directory = "ml/sponsor_detection/data/training/sponsor_windows_scriptsmith"
-manifest_path = "ml/sponsor_detection/reports/sponsor_windows_scriptsmith_manifest.json"
+output_directory = "data/training/sponsor_windows_scriptsmith"
+manifest_path = "reports/sponsor_windows_scriptsmith_manifest.json"
 encoder = "jhu-clsp/ettin-encoder-17m"
 encoder_revision = "987607455c61e7a5bbc85f7758e0512ea6d0ae4c"
 max_length = 1024

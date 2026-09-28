@@ -1,7 +1,7 @@
 {
   "checkpoint": {
     "model_sha256": "81184081034207ff887cde4807916d145f98708034ae325229ebaa17e54ca102",
-    "path": "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_combined"
+    "path": "checkpoints/ettin_17m_sponsor_combined"
   },
   "generated_at": "2026-09-21T07:40:28.625074+00:00",
   "runtime": {
@@ -572,7 +572,7 @@
   ],
   "validation_dataset": {
     "manifest_sha256": "0a6c1164d0c189c3604ce35e4b858737526776e3dc82f2966fa256bed079d698",
-    "path": "ml/sponsor_detection/data/training/sponsor_windows_combined/validation.parquet",
+    "path": "data/training/sponsor_windows_combined/validation.parquet",
     "rows": 59340,
     "sha256": "c02fbd6bd9bccb04cfd4d4c3e83885da8ce29670fa1496eede5d9c754d0f5878"
   }

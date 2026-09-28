@@ -1,8 +1,8 @@
 [xenova_dataset]
-directory = "ml/sponsor_detection/data/external/xenova_sponsorblock_768"
-report_path = "ml/sponsor_detection/reports/xenova_sponsorblock_768_profile.json"
+directory = "data/external/xenova_sponsorblock_768"
+report_path = "reports/xenova_sponsorblock_768_profile.json"
 revision = "09cace13dc72455e7558cfd2ad13e60a41688c8d"
-current_labels_path = "ml/sponsor_detection/data/labels/sponsor_annotations.parquet"
+current_labels_path = "data/labels/sponsor_annotations.parquet"
 
 [xenova_dataset.sha256]
 "processed_database.json" = "a02808a7290642bc7ae0dc3371bd47d404823bd8fb8544bb7b1e4590ca1683ac"

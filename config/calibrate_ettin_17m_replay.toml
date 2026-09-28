@@ -1,9 +1,9 @@
 [dataset]
-manifest_path = "ml/sponsor_detection/reports/sponsor_windows_v3_replay_manifest.json"
-validation_path = "ml/sponsor_detection/data/training/sponsor_windows_v3_replay/validation.parquet"
+manifest_path = "reports/sponsor_windows_v3_replay_manifest.json"
+validation_path = "data/training/sponsor_windows_v3_replay/validation.parquet"
 
 [model]
-checkpoint_path = "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_v3_replay"
+checkpoint_path = "checkpoints/ettin_17m_sponsor_v3_replay"
 max_length = 1024
 
 [calibration]
@@ -31,5 +31,5 @@ confidence_thresholds = [
   0.98,
   0.99,
 ]
-report_path = "ml/sponsor_detection/reports/ettin_17m_replay_calibration.json"
-decoder_config_path = "ml/sponsor_detection/reports/ettin_17m_replay_decoder.json"
+report_path = "reports/ettin_17m_replay_calibration.json"
+decoder_config_path = "reports/ettin_17m_replay_decoder.json"

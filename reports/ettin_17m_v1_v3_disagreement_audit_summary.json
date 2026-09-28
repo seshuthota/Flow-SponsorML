@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "source_report": "ml/sponsor_detection/reports/ettin_17m_v1_v3_disagreements.json",
+  "source_report": "reports/ettin_17m_v1_v3_disagreements.json",
   "comparison": {
     "v1_confidence_threshold": 0.0,
     "v3_confidence_threshold": 0.65,

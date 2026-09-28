@@ -1,11 +1,11 @@
 [dataset]
-transcript_directory = "ml/sponsor_detection/data/transcripts/pilot_v1"
-labels_path = "ml/sponsor_detection/data/labels/sponsor_annotations.parquet"
-labels_manifest_path = "ml/sponsor_detection/reports/sponsor_labels_manifest.json"
+transcript_directory = "data/transcripts/pilot_v1"
+labels_path = "data/labels/sponsor_annotations.parquet"
+labels_manifest_path = "reports/sponsor_labels_manifest.json"
 
 [model]
-checkpoint_path = "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_v3_replay"
-decoder_config_path = "ml/sponsor_detection/reports/ettin_17m_replay_decoder.json"
+checkpoint_path = "checkpoints/ettin_17m_sponsor_v3_replay"
+decoder_config_path = "reports/ettin_17m_replay_decoder.json"
 max_length = 768
 overlap_tokens = 128
 
@@ -14,4 +14,4 @@ batch_size = 16
 bf16 = true
 merge_gap_characters = 24
 merge_gap_ms = 1500
-report_path = "ml/sponsor_detection/reports/ettin_17m_replay_full_video_evaluation.json"
+report_path = "reports/ettin_17m_replay_full_video_evaluation.json"

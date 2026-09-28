@@ -1,7 +1,7 @@
 {
   "configuration": {
     "current_iou_threshold": 0.5,
-    "metadata_path": "ml/sponsor_detection/data/metadata/xenova_sponsorblock_768.jsonl",
+    "metadata_path": "data/metadata/xenova_sponsorblock_768.jsonl",
     "seed": "flow-sponsor-windows-v1",
     "test_fraction": 0.1,
     "train_fraction": 0.8,
@@ -57,7 +57,7 @@
         "train": 30190,
         "valid": 1670
       },
-      "path": "ml/sponsor_detection/data/training/sponsor_windows_v1/test.parquet",
+      "path": "data/training/sponsor_windows_v1/test.parquet",
       "rows": 33578,
       "sha256": "08fdb9dbfa789bca20511552ea5413c4297a94464cf50ebb4c10ff07f55eff18",
       "videos": 8931
@@ -76,7 +76,7 @@
         "train": 268268,
         "valid": 14900
       },
-      "path": "ml/sponsor_detection/data/training/sponsor_windows_v1/train.parquet",
+      "path": "data/training/sponsor_windows_v1/train.parquet",
       "rows": 298069,
       "sha256": "96fe4c167c070497999f532ad21a1ee0df263fcff7d0c430b4b864786a212006",
       "videos": 78076
@@ -95,7 +95,7 @@
         "train": 30782,
         "valid": 1719
       },
-      "path": "ml/sponsor_detection/data/training/sponsor_windows_v1/validation.parquet",
+      "path": "data/training/sponsor_windows_v1/validation.parquet",
       "rows": 34156,
       "sha256": "b47fc30ae12c8541f2d3eac527a7ba0124c21496e4e81338ef5ba9042cef9138",
       "videos": 9021

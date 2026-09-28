@@ -3,9 +3,9 @@
     "encoder": "jhu-clsp/ettin-encoder-17m",
     "encoder_revision": "987607455c61e7a5bbc85f7758e0512ea6d0ae4c",
     "exclude_split_directories": [
-      "ml/sponsor_detection/data/training/sponsor_windows_v1",
-      "ml/sponsor_detection/data/training/sponsor_windows_v2",
-      "ml/sponsor_detection/data/training/sponsor_windows_v3_replay"
+      "data/training/sponsor_windows_v1",
+      "data/training/sponsor_windows_v2",
+      "data/training/sponsor_windows_v3_replay"
     ],
     "hard_negative_categories": [
       "interaction",
@@ -88,7 +88,7 @@
         "ordinary_negative": 16878,
         "positive": 8289
       },
-      "path": "ml/sponsor_detection/data/training/sponsor_windows_scriptsmith/test.parquet",
+      "path": "data/training/sponsor_windows_scriptsmith/test.parquet",
       "rows": 26504,
       "sha256": "4cd444e3e7c6abb6e134acd06b23e67fb87e4e1633dc252f179595015c421029",
       "videos": 6046
@@ -102,7 +102,7 @@
         "ordinary_negative": 133810,
         "positive": 65288
       },
-      "path": "ml/sponsor_detection/data/training/sponsor_windows_scriptsmith/train.parquet",
+      "path": "data/training/sponsor_windows_scriptsmith/train.parquet",
       "rows": 209390,
       "sha256": "9a2f5134995c2c84a21dbee900773d74ee85c0092f2ec8a2508f800012c85cca",
       "videos": 47755
@@ -116,7 +116,7 @@
         "ordinary_negative": 16302,
         "positive": 7643
       },
-      "path": "ml/sponsor_detection/data/training/sponsor_windows_scriptsmith/validation.parquet",
+      "path": "data/training/sponsor_windows_scriptsmith/validation.parquet",
       "rows": 25184,
       "sha256": "eef5ab76d283834af3e9fce8ecad70bcf1d2577dd64facf9a7c6f850ba8253a1",
       "videos": 5777
@@ -124,10 +124,10 @@
   },
   "schema_version": 1,
   "sources": {
-    "metadata_directory": "ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/video_metadata",
+    "metadata_directory": "data/external/scriptsmith_sponsorblock_2024/video_metadata",
     "mirror_path": "sb-mirror/sponsorTimes.csv",
-    "provenance_path": "ml/sponsor_detection/reports/scriptsmith_dataset_provenance.json",
+    "provenance_path": "reports/scriptsmith_dataset_provenance.json",
     "provenance_sha256": "6bacf7bfc1bfd746a8db3bc607aedfaf3d6236d246357911e0d2a21eb57e5def",
-    "subtitles_directory": "ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/subtitles"
+    "subtitles_directory": "data/external/scriptsmith_sponsorblock_2024/subtitles"
   }
 }

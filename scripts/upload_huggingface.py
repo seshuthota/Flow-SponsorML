@@ -14,8 +14,7 @@ from pathlib import Path
 
 from huggingface_hub import HfApi
 
-ROOT = Path(__file__).resolve().parents[3]
-ML = ROOT / "ml" / "sponsor_detection"
+ML = Path(__file__).resolve().parents[1]
 STAGING = ML / "artifacts" / "hf_staging"
 NAMESPACE = "CuriousDragon"
 LICENSE = "cc-by-nc-sa-4.0"
@@ -139,7 +138,7 @@ model = AutoModelForTokenClassification.from_pretrained(repo)
 For full YouTube transcripts, tokenize into overlapping 768-token windows
 (128-token overlap), decode BILOU spans, map characters back onto caption
 cues, and merge gaps of 24 normalized characters or 1500 ms. See the Flow
-`ml/sponsor_detection` inference pipeline.
+this repository's inference pipeline.
 
 {metrics_block}
 

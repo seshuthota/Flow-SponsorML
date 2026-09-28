@@ -8,7 +8,7 @@
   },
   "checkpoint": {
     "model_sha256": "7e030265ea1cfaba39fe763c91500e4538b9653873fdfe0d7c52c62c552537c1",
-    "path": "ml/sponsor_detection/artifacts/android/ettin_17m_sponsor_v1/sponsor_detector_v1.fp32.onnx",
+    "path": "artifacts/android/ettin_17m_sponsor_v1/sponsor_detector_v1.fp32.onnx",
     "source_checkpoint_sha256": "7a23c22ce27c7ae3bc9ae909e6c1a34f583445e17692b666b07085f4c97a60d2"
   },
   "dataset": {
@@ -17,8 +17,8 @@
       "ordinary_negative": 13,
       "sponsor_positive": 13
     },
-    "benchmark_manifest_path": "ml/sponsor_detection/reports/mixed_pilot_frozen_v1_manifest.json",
-    "benchmark_path": "ml/sponsor_detection/data/benchmarks/mixed_pilot_frozen_v1.jsonl",
+    "benchmark_manifest_path": "reports/mixed_pilot_frozen_v1_manifest.json",
+    "benchmark_path": "data/benchmarks/mixed_pilot_frozen_v1.jsonl",
     "benchmark_sha256": "c546bde4de92d2a6a9ac3398002a75468c366d839c103759288a9a6a8ea17d68",
     "transcript_set_sha256": "199d5dd194ca7883bd9e5778b0d72eab9da9bc43a14394e7bf3eb2cb69978093",
     "videos": 39

@@ -16,7 +16,7 @@
   "generated_at": "2026-08-30T05:45:13.625040+00:00",
   "output": {
     "bytes": 5274,
-    "path": "ml/sponsor_detection/data/metadata/pilot_v1.jsonl",
+    "path": "data/metadata/pilot_v1.jsonl",
     "sha256": "d5108183c67164b65247f1fee546075419dea8c352301a61a525299d99cf0e59"
   },
   "schema_version": 1

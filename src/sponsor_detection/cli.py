@@ -326,7 +326,7 @@ def _build_parser() -> argparse.ArgumentParser:
     profile_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/profile.toml"),
+        default=Path("config/profile.toml"),
     )
     profile_parser.add_argument("--input", type=Path, help="Override the configured CSV path")
     profile_parser.add_argument("--output", type=Path, help="Override the configured report path")
@@ -341,7 +341,7 @@ def _build_parser() -> argparse.ArgumentParser:
     labels_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/labels.toml"),
+        default=Path("config/labels.toml"),
     )
     pilot_parser = data_commands.add_parser(
         "sample-pilot", help="Select a deterministic transcript-acquisition pilot"
@@ -349,7 +349,7 @@ def _build_parser() -> argparse.ArgumentParser:
     pilot_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/pilot.toml"),
+        default=Path("config/pilot.toml"),
     )
     benchmark_parser = data_commands.add_parser(
         "sample-benchmark",
@@ -358,7 +358,7 @@ def _build_parser() -> argparse.ArgumentParser:
     benchmark_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/benchmark_pilot.toml"),
+        default=Path("config/benchmark_pilot.toml"),
     )
     review_parser = data_commands.add_parser(
         "prepare-benchmark-review",
@@ -367,7 +367,7 @@ def _build_parser() -> argparse.ArgumentParser:
     review_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/benchmark_review.toml"),
+        default=Path("config/benchmark_review.toml"),
     )
     enrichment_parser = data_commands.add_parser(
         "enrich-benchmark-review",
@@ -376,7 +376,7 @@ def _build_parser() -> argparse.ArgumentParser:
     enrichment_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/benchmark_enrichment.toml"),
+        default=Path("config/benchmark_enrichment.toml"),
     )
     annotations_parser = data_commands.add_parser(
         "apply-benchmark-annotations",
@@ -385,7 +385,7 @@ def _build_parser() -> argparse.ArgumentParser:
     annotations_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/benchmark_annotations.toml"),
+        default=Path("config/benchmark_annotations.toml"),
     )
     freeze_benchmark_parser = data_commands.add_parser(
         "freeze-benchmark",
@@ -394,7 +394,7 @@ def _build_parser() -> argparse.ArgumentParser:
     freeze_benchmark_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/benchmark_freeze.toml"),
+        default=Path("config/benchmark_freeze.toml"),
     )
     transcripts_parser = data_commands.add_parser(
         "acquire-transcripts", help="Fetch a resumable transcript canary"
@@ -402,7 +402,7 @@ def _build_parser() -> argparse.ArgumentParser:
     transcripts_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/transcripts.toml"),
+        default=Path("config/transcripts.toml"),
     )
     collection_parser = data_commands.add_parser(
         "collect-transcripts", help="Collect transcripts toward a validated target"
@@ -410,7 +410,7 @@ def _build_parser() -> argparse.ArgumentParser:
     collection_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/collection.toml"),
+        default=Path("config/collection.toml"),
     )
     metadata_parser = data_commands.add_parser(
         "acquire-metadata", help="Fetch metadata for successful transcript videos"
@@ -418,7 +418,7 @@ def _build_parser() -> argparse.ArgumentParser:
     metadata_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/metadata.toml"),
+        default=Path("config/metadata.toml"),
     )
     feedback_parser = data_commands.add_parser(
         "import-feedback",
@@ -431,7 +431,7 @@ def _build_parser() -> argparse.ArgumentParser:
     train_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/train_ettin_17m.toml"),
+        default=Path("config/train_ettin_17m.toml"),
     )
     train_parser.add_argument("--smoke-test", action="store_true")
     train_parser.add_argument(
@@ -446,7 +446,7 @@ def _build_parser() -> argparse.ArgumentParser:
     evaluate_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/evaluate_ettin_17m.toml"),
+        default=Path("config/evaluate_ettin_17m.toml"),
     )
     calibrate_parser = commands.add_parser(
         "calibrate",
@@ -455,7 +455,7 @@ def _build_parser() -> argparse.ArgumentParser:
     calibrate_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/calibrate_ettin_17m_replay.toml"),
+        default=Path("config/calibrate_ettin_17m_replay.toml"),
     )
     disagreement_parser = commands.add_parser(
         "audit-disagreements",
@@ -464,7 +464,7 @@ def _build_parser() -> argparse.ArgumentParser:
     disagreement_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/audit_v1_v3_disagreements.toml"),
+        default=Path("config/audit_v1_v3_disagreements.toml"),
     )
     video_evaluation_parser = commands.add_parser(
         "evaluate-videos",
@@ -473,7 +473,7 @@ def _build_parser() -> argparse.ArgumentParser:
     video_evaluation_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/evaluate_full_videos.toml"),
+        default=Path("config/evaluate_full_videos.toml"),
     )
     freeze_parser = commands.add_parser(
         "freeze-release",
@@ -482,7 +482,7 @@ def _build_parser() -> argparse.ArgumentParser:
     freeze_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/freeze_ettin_17m_replay.toml"),
+        default=Path("config/freeze_ettin_17m_replay.toml"),
     )
     android_export_parser = commands.add_parser(
         "export-android",
@@ -491,7 +491,7 @@ def _build_parser() -> argparse.ArgumentParser:
     android_export_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/export_android_v1.toml"),
+        default=Path("config/export_android_v1.toml"),
     )
     validate_tokenization_parser = data_commands.add_parser(
         "validate-tokenization",
@@ -500,7 +500,7 @@ def _build_parser() -> argparse.ArgumentParser:
     validate_tokenization_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/train_ettin_17m.toml"),
+        default=Path("config/train_ettin_17m.toml"),
     )
     xenova_parser = data_commands.add_parser(
         "profile-xenova", help="Profile the published Xenova SponsorBlock dataset"
@@ -508,7 +508,7 @@ def _build_parser() -> argparse.ArgumentParser:
     xenova_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/xenova_dataset.toml"),
+        default=Path("config/xenova_dataset.toml"),
     )
     build_dataset_parser = data_commands.add_parser(
         "build-training-dataset",
@@ -517,7 +517,7 @@ def _build_parser() -> argparse.ArgumentParser:
     build_dataset_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/training_dataset.toml"),
+        default=Path("config/training_dataset.toml"),
     )
     corrections_parser = data_commands.add_parser(
         "apply-audit-corrections",
@@ -526,7 +526,7 @@ def _build_parser() -> argparse.ArgumentParser:
     corrections_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/audit_corrections.toml"),
+        default=Path("config/audit_corrections.toml"),
     )
     replay_parser = data_commands.add_parser(
         "build-replay-dataset",
@@ -535,7 +535,7 @@ def _build_parser() -> argparse.ArgumentParser:
     replay_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/replay_dataset.toml"),
+        default=Path("config/replay_dataset.toml"),
     )
     xenova_metadata_parser = data_commands.add_parser(
         "acquire-xenova-metadata",
@@ -544,7 +544,7 @@ def _build_parser() -> argparse.ArgumentParser:
     xenova_metadata_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/xenova_metadata.toml"),
+        default=Path("config/xenova_metadata.toml"),
     )
     scriptsmith_parser = data_commands.add_parser(
         "build-scriptsmith-dataset",
@@ -553,7 +553,7 @@ def _build_parser() -> argparse.ArgumentParser:
     scriptsmith_parser.add_argument(
         "--config",
         type=Path,
-        default=Path("ml/sponsor_detection/config/scriptsmith_dataset.toml"),
+        default=Path("config/scriptsmith_dataset.toml"),
     )
     return parser
 

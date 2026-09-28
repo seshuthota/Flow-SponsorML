@@ -11,7 +11,7 @@
   "generated_at": "2026-08-31T16:39:03.746753+00:00",
   "output": {
     "bytes": 18745,
-    "path": "ml/sponsor_detection/data/benchmarks/mixed_pilot_frozen_v1.jsonl",
+    "path": "data/benchmarks/mixed_pilot_frozen_v1.jsonl",
     "sha256": "c546bde4de92d2a6a9ac3398002a75468c366d839c103759288a9a6a8ea17d68"
   },
   "schema_version": 1,

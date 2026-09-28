@@ -165,7 +165,7 @@ def validate_tokenization_from_config(path: Path) -> dict[str, object]:
     report_path = Path(
         configuration.get("validation", {}).get(
             "tokenization_report_path",
-            "ml/sponsor_detection/reports/tokenization_validation.json",
+            "reports/tokenization_validation.json",
         )
     )
     write_json_atomic(report_path, report)

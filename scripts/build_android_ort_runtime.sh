@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-project_root=$(git rev-parse --show-toplevel)
-ml_root="$project_root/ml/sponsor_detection"
+script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+ml_root=$(dirname -- "$script_dir")
 runtime_root="$ml_root/artifacts/android/onnxruntime_custom"
 source_root="$runtime_root/source"
 working_root="$runtime_root/build"

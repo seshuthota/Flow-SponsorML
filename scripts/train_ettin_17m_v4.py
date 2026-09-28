@@ -11,8 +11,8 @@ from pathlib import Path
 from sponsor_detection.data.profile import sha256_file, write_json_atomic
 
 
-ROOT = Path(__file__).resolve().parents[3]
-BASE = ROOT / "ml/sponsor_detection"
+ROOT = Path(__file__).resolve().parents[1]
+BASE = ROOT
 REPORTS = BASE / "reports"
 STAGES = (
     ("train", "train_ettin_17m_v4.toml"),

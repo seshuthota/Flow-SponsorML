@@ -5,7 +5,7 @@
     "v3_worse_coverage": 1015
   },
   "dataset": {
-    "path": "ml/sponsor_detection/data/training/sponsor_windows_v3_replay/test.parquet",
+    "path": "data/training/sponsor_windows_v3_replay/test.parquet",
     "rows": 33578,
     "sha256": "08fdb9dbfa789bca20511552ea5413c4297a94464cf50ebb4c10ff07f55eff18"
   },
@@ -15160,7 +15160,7 @@
   },
   "models": {
     "v1": {
-      "checkpoint_path": "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_v1",
+      "checkpoint_path": "checkpoints/ettin_17m_sponsor_v1",
       "confidence_threshold": 0.0,
       "runtime": {
         "batch_size": 16,
@@ -15171,7 +15171,7 @@
       }
     },
     "v3": {
-      "checkpoint_path": "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_v3_replay",
+      "checkpoint_path": "checkpoints/ettin_17m_sponsor_v3_replay",
       "confidence_threshold": 0.65,
       "runtime": {
         "batch_size": 16,

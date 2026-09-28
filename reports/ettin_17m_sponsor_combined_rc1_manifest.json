@@ -7,37 +7,37 @@
     "artifacts": {
       "model": {
         "bytes": 67462820,
-        "path": "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_combined/model.safetensors",
+        "path": "checkpoints/ettin_17m_sponsor_combined/model.safetensors",
         "sha256": "81184081034207ff887cde4807916d145f98708034ae325229ebaa17e54ca102"
       },
       "model_config": {
         "bytes": 1852,
-        "path": "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_combined/config.json",
+        "path": "checkpoints/ettin_17m_sponsor_combined/config.json",
         "sha256": "6a288d0f8ed552a2e6273c46dcb97a8b1d382b62a7863640165c2e86d28ff07a"
       },
       "tokenizer": {
         "bytes": 3583228,
-        "path": "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_combined/tokenizer.json",
+        "path": "checkpoints/ettin_17m_sponsor_combined/tokenizer.json",
         "sha256": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30"
       },
       "tokenizer_config": {
         "bytes": 350,
-        "path": "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_combined/tokenizer_config.json",
+        "path": "checkpoints/ettin_17m_sponsor_combined/tokenizer_config.json",
         "sha256": "b777be9359fc2dd0dd89a5fab5d6f1ebdc937040cf47be84b75e431c5129885b"
       },
       "training_metrics": {
         "bytes": 1456,
-        "path": "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_combined/metrics.json",
+        "path": "checkpoints/ettin_17m_sponsor_combined/metrics.json",
         "sha256": "3c894238499b83149b8e404fab8df6a854059c75c5589810fc2fac83e2961165"
       }
     },
-    "path": "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_combined"
+    "path": "checkpoints/ettin_17m_sponsor_combined"
   },
   "decoder": {
     "confidence_threshold": 0.7,
     "config": {
       "bytes": 1174,
-      "path": "ml/sponsor_detection/reports/ettin_17m_combined_decoder.json",
+      "path": "reports/ettin_17m_combined_decoder.json",
       "sha256": "1b688cc632e0a3c23ed4c42d458d60f55eb99f2e3cb2aa67d8935ec04793d7ab"
     }
   },
@@ -122,54 +122,54 @@
   "name": "ettin-17m-sponsor-combined-rc1",
   "release_config": {
     "bytes": 1967,
-    "path": "ml/sponsor_detection/config/freeze_ettin_17m_combined.toml",
+    "path": "config/freeze_ettin_17m_combined.toml",
     "sha256": "899a1746bfecb16f5119d69a197ed8e4106583dfbe9bd79130a9b1b5807a49a7"
   },
   "schema_version": 1,
   "source_artifacts": {
     "calibrated_window_evaluation": {
       "bytes": 2730,
-      "path": "ml/sponsor_detection/reports/ettin_17m_combined_calibrated_scriptsmith_evaluation.json",
+      "path": "reports/ettin_17m_combined_calibrated_scriptsmith_evaluation.json",
       "sha256": "11eda6a69ad0b1b4605c3990fe78f6aeba944fa72eef3500621f4a5aaa8eec96"
     },
     "calibrated_xenova_evaluation": {
       "bytes": 2733,
-      "path": "ml/sponsor_detection/reports/ettin_17m_combined_calibrated_xenova_evaluation.json",
+      "path": "reports/ettin_17m_combined_calibrated_xenova_evaluation.json",
       "sha256": "2ed960ea848d65da5c352494d50e9fd24715265f37fe8ddd30f5806fac0aab01"
     },
     "calibration_report": {
       "bytes": 16838,
-      "path": "ml/sponsor_detection/reports/ettin_17m_combined_calibration.json",
+      "path": "reports/ettin_17m_combined_calibration.json",
       "sha256": "2a773fa949a21bfe4ac49e22fb59ae70e57858e4863c2f9efba489c65f51be60"
     },
     "decoder_config": {
       "bytes": 1174,
-      "path": "ml/sponsor_detection/reports/ettin_17m_combined_decoder.json",
+      "path": "reports/ettin_17m_combined_decoder.json",
       "sha256": "1b688cc632e0a3c23ed4c42d458d60f55eb99f2e3cb2aa67d8935ec04793d7ab"
     },
     "full_video_evaluation": {
       "bytes": 20072,
-      "path": "ml/sponsor_detection/reports/ettin_17m_combined_mixed_pilot_evaluation.json",
+      "path": "reports/ettin_17m_combined_mixed_pilot_evaluation.json",
       "sha256": "6276d572b273f16cf850167c3b4ae13455ef24e85b256a1b1fe26728c6b58507"
     },
     "raw_window_evaluation": {
       "bytes": 2665,
-      "path": "ml/sponsor_detection/reports/compare_combined_on_scriptsmith.json",
+      "path": "reports/compare_combined_on_scriptsmith.json",
       "sha256": "e63495f7b5522f0f14e023e89ffc567eaa625b93b25f63906636d3fd82ff75d6"
     },
     "raw_xenova_evaluation": {
       "bytes": 2676,
-      "path": "ml/sponsor_detection/reports/compare_combined_on_xenova.json",
+      "path": "reports/compare_combined_on_xenova.json",
       "sha256": "72533fbeab99a69281831ffb44b598e0077eaadd6d7105b7f9178873e95ec2a4"
     },
     "scriptsmith_provenance": {
       "bytes": 4634,
-      "path": "ml/sponsor_detection/reports/scriptsmith_dataset_provenance.json",
+      "path": "reports/scriptsmith_dataset_provenance.json",
       "sha256": "6bacf7bfc1bfd746a8db3bc607aedfaf3d6236d246357911e0d2a21eb57e5def"
     },
     "training_dataset_manifest": {
       "bytes": 2877,
-      "path": "ml/sponsor_detection/reports/sponsor_windows_combined_manifest.json",
+      "path": "reports/sponsor_windows_combined_manifest.json",
       "sha256": "0a6c1164d0c189c3604ce35e4b858737526776e3dc82f2966fa256bed079d698"
     }
   },

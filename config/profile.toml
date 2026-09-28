@@ -1,6 +1,6 @@
 [profile]
 input_path = "sb-mirror/sponsorTimes.csv"
-output_path = "ml/sponsor_detection/reports/sponsorblock_inventory.json"
+output_path = "reports/sponsorblock_inventory.json"
 compute_sha256 = true
 progress_every_rows = 5000000
 

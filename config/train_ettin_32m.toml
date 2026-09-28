@@ -1,8 +1,8 @@
 [dataset]
-manifest_path = "ml/sponsor_detection/reports/sponsor_windows_v1_manifest.json"
-train_path = "ml/sponsor_detection/data/training/sponsor_windows_v1/train.parquet"
-validation_path = "ml/sponsor_detection/data/training/sponsor_windows_v1/validation.parquet"
-test_path = "ml/sponsor_detection/data/training/sponsor_windows_v1/test.parquet"
+manifest_path = "reports/sponsor_windows_v1_manifest.json"
+train_path = "data/training/sponsor_windows_v1/train.parquet"
+validation_path = "data/training/sponsor_windows_v1/validation.parquet"
+test_path = "data/training/sponsor_windows_v1/test.parquet"
 
 [model]
 encoder = "jhu-clsp/ettin-encoder-32m"
@@ -12,10 +12,10 @@ dropout = 0.10
 labels = ["O", "B-SPONSOR", "I-SPONSOR", "L-SPONSOR", "U-SPONSOR"]
 
 [validation]
-tokenization_report_path = "ml/sponsor_detection/reports/ettin_32m_tokenization.json"
+tokenization_report_path = "reports/ettin_32m_tokenization.json"
 
 [training]
-output_directory = "ml/sponsor_detection/checkpoints/ettin_32m_sponsor_v1"
+output_directory = "checkpoints/ettin_32m_sponsor_v1"
 seed = 20260830
 epochs = 3
 learning_rate = 0.00003

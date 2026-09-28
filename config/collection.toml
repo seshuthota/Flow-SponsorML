@@ -1,8 +1,8 @@
 [collection]
-pilot_path = "ml/sponsor_detection/data/pilots/transcript_pilot_v1.jsonl"
-pilot_manifest_path = "ml/sponsor_detection/reports/transcript_pilot_v1_manifest.json"
-output_directory = "ml/sponsor_detection/data/transcripts/pilot_v1"
-report_path = "ml/sponsor_detection/reports/transcript_collection_v1_report.json"
+pilot_path = "data/pilots/transcript_pilot_v1.jsonl"
+pilot_manifest_path = "reports/transcript_pilot_v1_manifest.json"
+output_directory = "data/transcripts/pilot_v1"
+report_path = "reports/transcript_collection_v1_report.json"
 languages = ["en", "en-US", "en-GB"]
 target_successes = 5000
 max_attempts_per_run = 50

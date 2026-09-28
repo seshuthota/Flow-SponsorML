@@ -24,7 +24,7 @@
   "generated_at": "2026-08-30T19:10:20.448755+00:00",
   "output": {
     "bytes": 250165,
-    "path": "ml/sponsor_detection/data/benchmarks/mixed_pilot_candidates_v1.jsonl",
+    "path": "data/benchmarks/mixed_pilot_candidates_v1.jsonl",
     "sha256": "cb81e6aa5e79f0b911a27b1efb210896d1188ac90ba5426ee91b8d6a6c54816d"
   },
   "sampling": {
@@ -37,11 +37,11 @@
   },
   "schema_version": 1,
   "sources": {
-    "labels_path": "ml/sponsor_detection/data/labels/sponsor_annotations.parquet",
+    "labels_path": "data/labels/sponsor_annotations.parquet",
     "labels_sha256": "d8a64a89a1a04d641367ae920d8d752feba0fc4844a65b3b4717a7d2e42dacd0",
     "mirror_bytes": 6812995962,
     "mirror_path": "sb-mirror/sponsorTimes.csv",
-    "training_directory": "ml/sponsor_detection/data/training/sponsor_windows_v1"
+    "training_directory": "data/training/sponsor_windows_v1"
   },
   "status": "acquisition_pending"
 }

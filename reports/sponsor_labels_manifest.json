@@ -21,7 +21,7 @@
   "output": {
     "bytes": 328695629,
     "compression": "zstd",
-    "path": "ml/sponsor_detection/data/labels/sponsor_annotations.parquet",
+    "path": "data/labels/sponsor_annotations.parquet",
     "sha256": "d8a64a89a1a04d641367ae920d8d752feba0fc4844a65b3b4717a7d2e42dacd0"
   },
   "schema_version": 1,

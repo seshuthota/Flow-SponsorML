@@ -1,0 +1,18 @@
+# Python environments and build metadata
+.venv/
+.pytest_cache/
+__pycache__/
+*.egg-info/
+
+# Generated artifacts, model weights and training corpora
+artifacts/
+checkpoints/
+data/
+
+# Training and evaluation logs
+reports/*.log
+*.log
+
+# Local tooling
+.idea/
+.DS_Store

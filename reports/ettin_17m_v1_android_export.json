@@ -16,41 +16,41 @@
   "name": "ettin-17m-sponsor-v1-android-int8",
   "package": {
     "bytes": 32572057,
-    "directory": "ml/sponsor_detection/artifacts/android/ettin_17m_sponsor_v1/android",
+    "directory": "artifacts/android/ettin_17m_sponsor_v1/android",
     "files": {
       "feedback_schema": {
         "bytes": 3501,
-        "path": "ml/sponsor_detection/artifacts/android/ettin_17m_sponsor_v1/android/sponsor_feedback_v1.schema.json",
+        "path": "artifacts/android/ettin_17m_sponsor_v1/android/sponsor_feedback_v1.schema.json",
         "sha256": "692cc8d03f45fb94f8e9daff9e97921233d4a94ade46af04fc238b5ca5e0f25a"
       },
       "model": {
         "bytes": 28973008,
-        "path": "ml/sponsor_detection/artifacts/android/ettin_17m_sponsor_v1/android/sponsor_detector_v1.int8.ort",
+        "path": "artifacts/android/ettin_17m_sponsor_v1/android/sponsor_detector_v1.int8.ort",
         "sha256": "d6fa7bba3c9516db4c7f557945b3a0b5ef12ccfac6ceb9a82d37eb44a14c29fe"
       },
       "model_config": {
         "bytes": 1852,
-        "path": "ml/sponsor_detection/artifacts/android/ettin_17m_sponsor_v1/android/config.json",
+        "path": "artifacts/android/ettin_17m_sponsor_v1/android/config.json",
         "sha256": "6a288d0f8ed552a2e6273c46dcb97a8b1d382b62a7863640165c2e86d28ff07a"
       },
       "operator_config": {
         "bytes": 1236,
-        "path": "ml/sponsor_detection/artifacts/android/ettin_17m_sponsor_v1/android/required_operators_and_types.config",
+        "path": "artifacts/android/ettin_17m_sponsor_v1/android/required_operators_and_types.config",
         "sha256": "4dd74bd9f66959931e6b8117abe3c617a1a8c9951e849b89fef29ed582c9af65"
       },
       "tokenizer": {
         "bytes": 3583228,
-        "path": "ml/sponsor_detection/artifacts/android/ettin_17m_sponsor_v1/android/tokenizer.json",
+        "path": "artifacts/android/ettin_17m_sponsor_v1/android/tokenizer.json",
         "sha256": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30"
       },
       "tokenizer_config": {
         "bytes": 351,
-        "path": "ml/sponsor_detection/artifacts/android/ettin_17m_sponsor_v1/android/tokenizer_config.json",
+        "path": "artifacts/android/ettin_17m_sponsor_v1/android/tokenizer_config.json",
         "sha256": "cbea6a0ec8bf4a66475f458a359223ec17f1ac36b2f5797036a76140daa065de"
       },
       "tokenizer_goldens": {
         "bytes": 8881,
-        "path": "ml/sponsor_detection/artifacts/android/ettin_17m_sponsor_v1/android/tokenizer_goldens.json",
+        "path": "artifacts/android/ettin_17m_sponsor_v1/android/tokenizer_goldens.json",
         "sha256": "23dbb158d5cb0ad1797de4062100cf8b2913041baaf40e3526490b83297bfd57"
       }
     }
@@ -65,7 +65,7 @@
   "source": {
     "base_model": "jhu-clsp/ettin-encoder-17m",
     "base_model_license": "MIT",
-    "checkpoint_path": "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_v1",
+    "checkpoint_path": "checkpoints/ettin_17m_sponsor_v1",
     "checkpoint_sha256": "7a23c22ce27c7ae3bc9ae909e6c1a34f583445e17692b666b07085f4c97a60d2"
   },
   "status": "validated",
@@ -79,7 +79,7 @@
   "validation": {
     "baseline_report": {
       "bytes": 18390,
-      "path": "ml/sponsor_detection/reports/ettin_17m_v1_mixed_pilot_evaluation.json",
+      "path": "reports/ettin_17m_v1_mixed_pilot_evaluation.json",
       "sha256": "5f38e83c6afa60e61d01748bd34c08f4f0135c7b7a23117c5f6affaf14c26689"
     },
     "baseline_span_f1_at_iou_0.5": 0.8205128205128205,
@@ -94,7 +94,7 @@
       },
       "checkpoint": {
         "model_sha256": "7e030265ea1cfaba39fe763c91500e4538b9653873fdfe0d7c52c62c552537c1",
-        "path": "ml/sponsor_detection/artifacts/android/ettin_17m_sponsor_v1/sponsor_detector_v1.fp32.onnx",
+        "path": "artifacts/android/ettin_17m_sponsor_v1/sponsor_detector_v1.fp32.onnx",
         "source_checkpoint_sha256": "7a23c22ce27c7ae3bc9ae909e6c1a34f583445e17692b666b07085f4c97a60d2"
       },
       "dataset": {
@@ -103,8 +103,8 @@
           "ordinary_negative": 13,
           "sponsor_positive": 13
         },
-        "benchmark_manifest_path": "ml/sponsor_detection/reports/mixed_pilot_frozen_v1_manifest.json",
-        "benchmark_path": "ml/sponsor_detection/data/benchmarks/mixed_pilot_frozen_v1.jsonl",
+        "benchmark_manifest_path": "reports/mixed_pilot_frozen_v1_manifest.json",
+        "benchmark_path": "data/benchmarks/mixed_pilot_frozen_v1.jsonl",
         "benchmark_sha256": "c546bde4de92d2a6a9ac3398002a75468c366d839c103759288a9a6a8ea17d68",
         "transcript_set_sha256": "199d5dd194ca7883bd9e5778b0d72eab9da9bc43a14394e7bf3eb2cb69978093",
         "videos": 39
@@ -857,7 +857,7 @@
       },
       "checkpoint": {
         "model_sha256": "d6fa7bba3c9516db4c7f557945b3a0b5ef12ccfac6ceb9a82d37eb44a14c29fe",
-        "path": "ml/sponsor_detection/artifacts/android/ettin_17m_sponsor_v1/android/sponsor_detector_v1.int8.ort",
+        "path": "artifacts/android/ettin_17m_sponsor_v1/android/sponsor_detector_v1.int8.ort",
         "source_checkpoint_sha256": "7a23c22ce27c7ae3bc9ae909e6c1a34f583445e17692b666b07085f4c97a60d2"
       },
       "dataset": {
@@ -866,8 +866,8 @@
           "ordinary_negative": 13,
           "sponsor_positive": 13
         },
-        "benchmark_manifest_path": "ml/sponsor_detection/reports/mixed_pilot_frozen_v1_manifest.json",
-        "benchmark_path": "ml/sponsor_detection/data/benchmarks/mixed_pilot_frozen_v1.jsonl",
+        "benchmark_manifest_path": "reports/mixed_pilot_frozen_v1_manifest.json",
+        "benchmark_path": "data/benchmarks/mixed_pilot_frozen_v1.jsonl",
         "benchmark_sha256": "c546bde4de92d2a6a9ac3398002a75468c366d839c103759288a9a6a8ea17d68",
         "transcript_set_sha256": "199d5dd194ca7883bd9e5778b0d72eab9da9bc43a14394e7bf3eb2cb69978093",
         "videos": 39

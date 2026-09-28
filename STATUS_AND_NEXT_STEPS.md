@@ -349,8 +349,8 @@ State and report:
 4. Run one bounded collection invocation:
 
 ```bash
-ml/sponsor_detection/.venv/bin/sponsor-detection data collect-transcripts \
-  --config ml/sponsor_detection/config/benchmark_collection.toml
+.venv/bin/sponsor-detection data collect-transcripts \
+  --config config/benchmark_collection.toml
 ```
 
 The command will attempt at most ten candidates, sleep 15–25 seconds between attempts, cache each
@@ -367,7 +367,7 @@ Every invocation resumes from existing state. The configured target is 120 succe
 Inspect progress with:
 
 ```bash
-cat ml/sponsor_detection/reports/mixed_pilot_transcript_collection_v1.json
+cat reports/mixed_pilot_transcript_collection_v1.json
 ```
 
 If collection reaches 120 but the later review-preparation step reports a class deficit, increase
@@ -382,8 +382,8 @@ This step uses the official YouTube Data API only for metadata such as channel I
 duration, caption availability, and public status. It does not retrieve transcripts.
 
 ```bash
-ml/sponsor_detection/.venv/bin/sponsor-detection data acquire-metadata \
-  --config ml/sponsor_detection/config/benchmark_metadata.toml
+.venv/bin/sponsor-detection data acquire-metadata \
+  --config config/benchmark_metadata.toml
 ```
 
 For 120 transcripts, the configuration permits at most three batches of 50 video IDs. The API key
@@ -392,8 +392,8 @@ is loaded from `.env` and is not written into reports.
 ### 2. Select the channel-disjoint 60-video review set
 
 ```bash
-ml/sponsor_detection/.venv/bin/sponsor-detection data prepare-benchmark-review \
-  --config ml/sponsor_detection/config/benchmark_review.toml
+.venv/bin/sponsor-detection data prepare-benchmark-review \
+  --config config/benchmark_review.toml
 ```
 
 Expected output:
@@ -427,8 +427,8 @@ manually. Ambiguous records should be excluded or adjudicated rather than forced
 ### 4. Freeze the reviewed benchmark
 
 ```bash
-ml/sponsor_detection/.venv/bin/sponsor-detection data freeze-benchmark \
-  --config ml/sponsor_detection/config/benchmark_freeze.toml
+.venv/bin/sponsor-detection data freeze-benchmark \
+  --config config/benchmark_freeze.toml
 ```
 
 This will refuse to freeze unless all selected records are valid and the final reviewed classes
@@ -442,8 +442,8 @@ Expected output:
 ### 5. Run the mixed full-video evaluation
 
 ```bash
-ml/sponsor_detection/.venv/bin/sponsor-detection evaluate-videos \
-  --config ml/sponsor_detection/config/evaluate_mixed_pilot.toml
+.venv/bin/sponsor-detection evaluate-videos \
+  --config config/evaluate_mixed_pilot.toml
 ```
 
 The report will finally measure the quantities absent from the positive-only canary:
@@ -488,8 +488,8 @@ After selecting an operating point:
 - Command:
 
 ```bash
-ml/sponsor_detection/.venv/bin/python -m unittest discover \
-  -s ml/sponsor_detection/tests -p 'test_*.py'
+.venv/bin/python -m unittest discover \
+  -s tests -p 'test_*.py'
 ```
 
 - Latest result: all 49 tests passed.

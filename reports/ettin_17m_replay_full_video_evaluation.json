@@ -8,17 +8,17 @@
   },
   "checkpoint": {
     "model_sha256": "da7e03a80f00a4854a63289e3eda9f1142a34e1930e780f86c535ec6428d6a59",
-    "path": "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_v3_replay"
+    "path": "checkpoints/ettin_17m_sponsor_v3_replay"
   },
   "dataset": {
     "labels_sha256": "d8a64a89a1a04d641367ae920d8d752feba0fc4844a65b3b4717a7d2e42dacd0",
-    "transcript_directory": "ml/sponsor_detection/data/transcripts/pilot_v1",
+    "transcript_directory": "data/transcripts/pilot_v1",
     "transcript_set_sha256": "91ec41761c3893db8c7336d8d22f962a222cb3520d0383f533e269e2f539801d",
     "videos": 20
   },
   "decoder": {
     "confidence_threshold": 0.65,
-    "config_path": "ml/sponsor_detection/reports/ettin_17m_replay_decoder.json"
+    "config_path": "reports/ettin_17m_replay_decoder.json"
   },
   "schema_version": 1,
   "span_metrics_by_temporal_iou": {

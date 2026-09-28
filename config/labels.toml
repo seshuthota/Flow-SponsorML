@@ -1,8 +1,8 @@
 [labels]
 input_path = "sb-mirror/sponsorTimes.csv"
-profile_path = "ml/sponsor_detection/reports/sponsorblock_inventory.json"
-output_path = "ml/sponsor_detection/data/labels/sponsor_annotations.parquet"
-manifest_path = "ml/sponsor_detection/reports/sponsor_labels_manifest.json"
+profile_path = "reports/sponsorblock_inventory.json"
+output_path = "data/labels/sponsor_annotations.parquet"
+manifest_path = "reports/sponsor_labels_manifest.json"
 batch_size = 100000
 compression = "zstd"
 progress_every_rows = 5000000

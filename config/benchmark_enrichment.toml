@@ -1,6 +1,6 @@
 [benchmark_enrichment]
-review_path = "ml/sponsor_detection/data/benchmarks/mixed_pilot_review_v1.jsonl"
-review_manifest_path = "ml/sponsor_detection/reports/mixed_pilot_review_v1_manifest.json"
+review_path = "data/benchmarks/mixed_pilot_review_v1.jsonl"
+review_manifest_path = "reports/mixed_pilot_review_v1_manifest.json"
 batch_size = 16
 bf16 = true
 max_length = 768
@@ -11,10 +11,10 @@ context_characters = 240
 
 [[benchmark_enrichment.models]]
 name = "v1_raw"
-checkpoint_path = "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_v1"
+checkpoint_path = "checkpoints/ettin_17m_sponsor_v1"
 confidence_threshold = 0.0
 
 [[benchmark_enrichment.models]]
 name = "v3_replay_calibrated"
-checkpoint_path = "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_v3_replay"
-decoder_config_path = "ml/sponsor_detection/reports/ettin_17m_replay_decoder.json"
+checkpoint_path = "checkpoints/ettin_17m_sponsor_v3_replay"
+decoder_config_path = "reports/ettin_17m_replay_decoder.json"

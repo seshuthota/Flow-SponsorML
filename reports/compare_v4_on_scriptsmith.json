@@ -41,7 +41,7 @@
   },
   "checkpoint": {
     "model_sha256": "cf22061f2aab6cb9820c3b9f01c224d97b3a95024983e8572028745f93b67534",
-    "path": "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_v4_full"
+    "path": "checkpoints/ettin_17m_sponsor_v4_full"
   },
   "dataset": {
     "manifest_sha256": "051e49e19f7a4f55a4fab415328dabbedb6ff48c27cc05a9e985910ca9be4871",

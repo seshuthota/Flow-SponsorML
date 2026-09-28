@@ -8,7 +8,7 @@
         "sponsor": 177496
       },
       "invalid_segments": 0,
-      "path": "ml/sponsor_detection/data/external/xenova_sponsorblock_768/processed_database.json",
+      "path": "data/external/xenova_sponsorblock_768/processed_database.json",
       "segments": 289869,
       "videos": 221707
     },
@@ -20,7 +20,7 @@
         "sponsor": 73334
       },
       "invalid_segments": 0,
-      "path": "ml/sponsor_detection/data/external/xenova_sponsorblock_768/segments.json",
+      "path": "data/external/xenova_sponsorblock_768/segments.json",
       "segments": 133514,
       "videos": 98219
     }
@@ -31,7 +31,7 @@
       "eligible_rows": 104056,
       "matched_rows": 122521,
       "matched_videos": 59855,
-      "path": "ml/sponsor_detection/data/labels/sponsor_annotations.parquet",
+      "path": "data/labels/sponsor_annotations.parquet",
       "source_rows": 5222102,
       "videos_with_eligible_current_labels": 57643
     },
@@ -69,7 +69,7 @@
         "matches": true
       }
     },
-    "directory": "ml/sponsor_detection/data/external/xenova_sponsorblock_768",
+    "directory": "data/external/xenova_sponsorblock_768",
     "repository": "Xenova/sponsorblock-768",
     "revision": "09cace13dc72455e7558cfd2ad13e60a41688c8d"
   },
@@ -97,7 +97,7 @@
         "negative": 9293,
         "single_category": 8907
       },
-      "path": "ml/sponsor_detection/data/external/xenova_sponsorblock_768/test.json",
+      "path": "data/external/xenova_sponsorblock_768/test.json",
       "rows": 18570,
       "rows_missing_required_fields": 0,
       "text_characters": {
@@ -135,7 +135,7 @@
         "negative": 167154,
         "single_category": 160341
       },
-      "path": "ml/sponsor_detection/data/external/xenova_sponsorblock_768/train.json",
+      "path": "data/external/xenova_sponsorblock_768/train.json",
       "rows": 334265,
       "rows_missing_required_fields": 0,
       "text_characters": {
@@ -173,7 +173,7 @@
         "negative": 9256,
         "single_category": 8952
       },
-      "path": "ml/sponsor_detection/data/external/xenova_sponsorblock_768/valid.json",
+      "path": "data/external/xenova_sponsorblock_768/valid.json",
       "rows": 18571,
       "rows_missing_required_fields": 0,
       "text_characters": {

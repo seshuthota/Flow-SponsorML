@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "generated_at": "2026-08-30T15:27:04.804583+00:00",
-  "source_error_report": "ml/sponsor_detection/reports/ettin_17m_local_span_errors.json",
-  "evaluation_report": "ml/sponsor_detection/reports/ettin_17m_local_span_evaluation.json",
+  "source_error_report": "reports/ettin_17m_local_span_errors.json",
+  "evaluation_report": "reports/ettin_17m_local_span_evaluation.json",
   "methodology": {
     "sample": "top 100 highest-confidence false-positive windows and top 100 largest missed-sponsor windows",
     "classification": "rule-assisted semantic triage using explicit commercial-language, first-party, and topic-context cues",

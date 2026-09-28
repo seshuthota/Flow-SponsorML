@@ -1,8 +1,8 @@
 {
   "configuration": {
-    "candidates_path": "ml/sponsor_detection/reports/ettin_17m_train_correction_candidates.json",
+    "candidates_path": "reports/ettin_17m_train_correction_candidates.json",
     "minimum_confidence": 0.9,
-    "source_manifest_path": "ml/sponsor_detection/reports/sponsor_windows_v1_manifest.json",
+    "source_manifest_path": "reports/sponsor_windows_v1_manifest.json",
     "source_manifest_sha256": "57d711c82807e30475fd679ce97e86419a5b8d8d9f5b87d7c33d194bdc585b51"
   },
   "corrections": {
@@ -92,7 +92,7 @@
         "train": 30190,
         "valid": 1670
       },
-      "path": "ml/sponsor_detection/data/training/sponsor_windows_v2/test.parquet",
+      "path": "data/training/sponsor_windows_v2/test.parquet",
       "rows": 33578,
       "sha256": "08fdb9dbfa789bca20511552ea5413c4297a94464cf50ebb4c10ff07f55eff18",
       "videos": 8931
@@ -112,7 +112,7 @@
         "train": 268268,
         "valid": 14900
       },
-      "path": "ml/sponsor_detection/data/training/sponsor_windows_v2/train.parquet",
+      "path": "data/training/sponsor_windows_v2/train.parquet",
       "rows": 298069,
       "sha256": "53090586a483f636e081be8398cee1f29b64baa5fbda2cdcfc8088fd1febd075",
       "videos": 78076
@@ -131,7 +131,7 @@
         "train": 30782,
         "valid": 1719
       },
-      "path": "ml/sponsor_detection/data/training/sponsor_windows_v2/validation.parquet",
+      "path": "data/training/sponsor_windows_v2/validation.parquet",
       "rows": 34156,
       "sha256": "b47fc30ae12c8541f2d3eac527a7ba0124c21496e4e81338ef5ba9042cef9138",
       "videos": 9021

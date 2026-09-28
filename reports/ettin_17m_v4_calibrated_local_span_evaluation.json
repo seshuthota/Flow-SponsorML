@@ -41,7 +41,7 @@
   },
   "checkpoint": {
     "model_sha256": "cf22061f2aab6cb9820c3b9f01c224d97b3a95024983e8572028745f93b67534",
-    "path": "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_v4_full"
+    "path": "checkpoints/ettin_17m_sponsor_v4_full"
   },
   "dataset": {
     "manifest_sha256": "cac777516fe731424efab5735196a1ba2a9962a0fe1f3c8eb1181f17e4302405",
@@ -50,7 +50,7 @@
   },
   "decoder": {
     "confidence_threshold": 0.65,
-    "config_path": "ml/sponsor_detection/reports/ettin_17m_v4_decoder.json"
+    "config_path": "reports/ettin_17m_v4_decoder.json"
   },
   "predicted_span_confidence": {
     "count": 9577,

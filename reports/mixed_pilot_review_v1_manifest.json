@@ -1,6 +1,6 @@
 {
   "annotations": {
-    "annotations_path": "ml/sponsor_detection/data/benchmarks/mixed_pilot_annotations_v1.json",
+    "annotations_path": "data/benchmarks/mixed_pilot_annotations_v1.json",
     "annotations_sha256": "bee501f1d47aadd41af611abfbd2fa0d404de0399ca082c715d81e22e0ed6b4b",
     "reviewed_by_class": {
       "hard_negative": 17,
@@ -29,13 +29,13 @@
   "enrichment": {
     "models": [
       {
-        "checkpoint_path": "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_v1",
+        "checkpoint_path": "checkpoints/ettin_17m_sponsor_v1",
         "checkpoint_sha256": "7a23c22ce27c7ae3bc9ae909e6c1a34f583445e17692b666b07085f4c97a60d2",
         "confidence_threshold": 0.0,
         "name": "v1_raw"
       },
       {
-        "checkpoint_path": "ml/sponsor_detection/checkpoints/ettin_17m_sponsor_v3_replay",
+        "checkpoint_path": "checkpoints/ettin_17m_sponsor_v3_replay",
         "checkpoint_sha256": "da7e03a80f00a4854a63289e3eda9f1142a34e1930e780f86c535ec6428d6a59",
         "confidence_threshold": 0.65,
         "name": "v3_replay_calibrated"
@@ -48,7 +48,7 @@
   "generated_at": "2026-08-31T16:31:00.810045+00:00",
   "output": {
     "bytes": 149627,
-    "path": "ml/sponsor_detection/data/benchmarks/mixed_pilot_review_v1.jsonl",
+    "path": "data/benchmarks/mixed_pilot_review_v1.jsonl",
     "sha256": "3244b704bfd9f0f5ab33239ccaa6f24cba9f8e9680b7b13efb24b09dfee0aa1b"
   },
   "schema_version": 1,
