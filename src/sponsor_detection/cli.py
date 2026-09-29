@@ -383,6 +383,37 @@ def _load_smart_segment_annotations_configuration(path: Path) -> dict[str, objec
     }
 
 
+def _load_smart_segment_benchmark_configuration(path: Path) -> dict[str, object]:
+    with path.open("rb") as source:
+        configuration = tomllib.load(source)
+    benchmark = configuration.get("smart_segments_benchmark", {})
+    return {
+        "subtitles_directory": Path(benchmark["subtitles_directory"]),
+        "metadata_directory": Path(benchmark["metadata_directory"]),
+        "annotations_path": Path(benchmark["annotations_path"]),
+        "exclude_split_directories": [
+            Path(value) for value in benchmark.get("exclude_split_directories", [])
+        ],
+        "review_path": Path(benchmark["review_path"]),
+        "review_manifest_path": Path(benchmark["review_manifest_path"]),
+        "frozen_path": Path(benchmark["frozen_path"]),
+        "frozen_manifest_path": Path(benchmark["frozen_manifest_path"]),
+        "categories": [str(value) for value in benchmark["categories"]],
+        "targets": {
+            str(name): int(value)
+            for name, value in benchmark.get("targets", {}).items()
+        },
+        "seed": str(benchmark["seed"]),
+        "language_prefixes": [
+            str(value) for value in benchmark.get("language_prefixes", ["en"])
+        ],
+        "maximum_video_duration_seconds": int(
+            benchmark.get("maximum_video_duration_seconds", 14400)
+        ),
+        "minimum_cues": int(benchmark.get("minimum_cues", 25)),
+    }
+
+
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="sponsor-detection")
     commands = parser.add_subparsers(dest="command", required=True)
@@ -664,6 +695,24 @@ def _build_parser() -> argparse.ArgumentParser:
         "--config",
         type=Path,
         default=Path("config/smart_segments_gates.toml"),
+    )
+    build_benchmark_parser = smart_segments_commands.add_parser(
+        "build-benchmark",
+        help="Build the full-transcript multicategory review queue",
+    )
+    build_benchmark_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("config/smart_segments_benchmark.toml"),
+    )
+    freeze_benchmark_parser = smart_segments_commands.add_parser(
+        "freeze-benchmark",
+        help="Freeze a reviewed benchmark and derive confirmed negatives",
+    )
+    freeze_benchmark_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("config/smart_segments_benchmark.toml"),
     )
     return parser
 
@@ -1236,6 +1285,46 @@ def main(arguments: Sequence[str] | None = None) -> int:
                 sort_keys=True,
             )
         )
+        return 0
+    if (
+        options.command == "smart-segments"
+        and options.smart_segments_command == "build-benchmark"
+    ):
+        from sponsor_detection.data.smart_segment_benchmark import (
+            build_benchmark_candidates,
+        )
+
+        configuration = _load_smart_segment_benchmark_configuration(options.config)
+        configuration.pop("frozen_path")
+        configuration.pop("frozen_manifest_path")
+        manifest = build_benchmark_candidates(
+            configuration.pop("subtitles_directory"),
+            configuration.pop("metadata_directory"),
+            configuration.pop("annotations_path"),
+            configuration.pop("exclude_split_directories"),
+            configuration.pop("review_path"),
+            configuration.pop("review_manifest_path"),
+            progress_callback=_print_stage_progress,
+            **configuration,
+        )
+        print(f"wrote benchmark review queue: {manifest['output']['path']}")
+        print(json.dumps(manifest["counts"], indent=2, sort_keys=True))
+        return 0 if manifest["status"] == "annotation_pending" else 5
+    if (
+        options.command == "smart-segments"
+        and options.smart_segments_command == "freeze-benchmark"
+    ):
+        from sponsor_detection.data.smart_segment_benchmark import freeze_benchmark
+
+        configuration = _load_smart_segment_benchmark_configuration(options.config)
+        manifest = freeze_benchmark(
+            configuration["review_path"],
+            configuration["frozen_path"],
+            configuration["frozen_manifest_path"],
+            categories=configuration["categories"],
+        )
+        print(f"wrote frozen benchmark: {manifest['output']['path']}")
+        print(json.dumps(manifest["counts"], indent=2, sort_keys=True))
         return 0
     if options.command == "data" and options.data_command == "validate-tokenization":
         from sponsor_detection.train import validate_tokenization_from_config

@@ -1,0 +1,24 @@
+[smart_segments_benchmark]
+subtitles_directory = "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/subtitles"
+metadata_directory = "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/video_metadata"
+annotations_path = "data/smart_segments/smart_segment_annotations.parquet"
+# Keep the benchmark disjoint from the frozen training splits.
+exclude_split_directories = ["data/training/smart_segments_windows"]
+review_path = "data/smart_segments/benchmark_review.jsonl"
+review_manifest_path = "reports/smart_segments_benchmark_review_manifest.json"
+frozen_path = "data/smart_segments/smart_segments_benchmark.jsonl"
+frozen_manifest_path = "reports/smart_segments_benchmark_manifest.json"
+
+categories = ["sponsor", "selfpromo", "interaction"]
+language_prefixes = ["en"]
+seed = "flow-smart-segments-benchmark-v1"
+maximum_video_duration_seconds = 14400
+minimum_cues = 25
+
+# Channel-disjoint selection targets. Content-heavy negatives are reviewed in
+# full so a missing annotation is not mistaken for absence.
+[smart_segments_benchmark.targets]
+sponsor = 40
+selfpromo = 30
+interaction = 30
+content_negative = 40
