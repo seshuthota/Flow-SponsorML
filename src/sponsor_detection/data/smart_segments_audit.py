@@ -28,6 +28,10 @@ from sponsor_detection.data.scriptsmith_dataset import (
     _parse_cues,
     reconstruct_caption_lines,
 )
+from sponsor_detection.data.smart_segment_supervision import (
+    ConfirmedNegative,
+    load_confirmed_negatives,
+)
 from sponsor_detection.inference.windowing import (
     TranscriptCue,
     assemble_transcript,
@@ -584,7 +588,7 @@ def build_trainability_audit(
     started = time.monotonic()
     policy = eligibility or EligibilityPolicy()
     audited_categories = tuple(categories)
-    negative_evidence = _load_negative_evidence(negative_evidence_path)
+    negative_evidence = load_confirmed_negatives(negative_evidence_path)
 
     if progress_callback:
         progress_callback("loading video metadata")
@@ -749,9 +753,7 @@ def build_trainability_audit(
                 )
 
         if negative_evidence:
-            _apply_negative_evidence(
-                video_id, windows, negative_evidence, per_category, audited_categories
-            )
+            _apply_negative_evidence(video_id, windows, negative_evidence, per_category)
         if progress_callback and video_index % 2000 == 0:
             progress_callback(
                 f"processed {video_index:,} transcripts, {windows_total:,} windows"
@@ -883,50 +885,21 @@ def _count_span_tokens(
     return count
 
 
-def _load_negative_evidence(
-    path: Path | None,
-) -> dict[str, list[tuple[str, int, int]]]:
-    """Load explicitly reviewed confirmed-negative intervals, if any exist.
-
-    Expected JSONL shape: ``{"video_id", "category", "start_ms", "end_ms",
-    "evidence_id"}``. The source must guarantee exhaustive coverage for the
-    category; missing rows are still UNKNOWN.
-    """
-
-    evidence: dict[str, list[tuple[str, int, int]]] = defaultdict(list)
-    if path is None or not path.is_file():
-        return evidence
-    with path.open("r", encoding="utf-8") as source:
-        for line in source:
-            line = line.strip()
-            if not line:
-                continue
-            record = json.loads(line)
-            evidence[str(record["video_id"])].append(
-                (
-                    str(record["category"]),
-                    int(record["start_ms"]),
-                    int(record["end_ms"]),
-                )
-            )
-    return evidence
-
-
 def _apply_negative_evidence(
     video_id: str,
     windows: Iterable[object],
-    evidence: dict[str, list[tuple[str, int, int]]],
+    evidence: dict[str, list[ConfirmedNegative]],
     per_category: dict[str, dict[str, object]],
-    categories: Sequence[str],
 ) -> None:
-    intervals = evidence.get(video_id)
-    if not intervals:
+    records = evidence.get(video_id)
+    if not records:
         return
     for window in windows:
         window_start = int(getattr(window, "start_ms"))
         window_end = int(getattr(window, "end_ms"))
-        for category, start_ms, end_ms in intervals:
-            if category not in per_category:
+        for negative in records:
+            stats = per_category.get(negative.category)
+            if stats is None:
                 continue
-            if min(window_end, end_ms) > max(window_start, start_ms):
-                per_category[category]["confirmed_negative_windows"] += 1
+            if min(window_end, negative.end_ms) > max(window_start, negative.start_ms):
+                stats["confirmed_negative_windows"] += 1

@@ -343,6 +343,7 @@ class SmartSegmentsAuditFixture(unittest.TestCase):
                     "category": "hook",
                     "start_ms": 0,
                     "end_ms": 2000,
+                    "evidence_source": "manual_review",
                     "evidence_id": "review-1",
                 }
             )
