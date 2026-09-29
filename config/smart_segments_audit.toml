@@ -1,0 +1,47 @@
+[smart_segments]
+# Paths are resolved from the Flow-SponsorML repository root. The SponsorBlock
+# mirror and the ScriptSmith / Xenova snapshots still live in the Flow working
+# tree, which is a sibling checkout.
+mirror_path = "../Flow/sb-mirror/sponsorTimes.csv"
+subtitles_directory = "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/subtitles"
+metadata_directory = "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/video_metadata"
+xenova_directory = "../Flow/ml/sponsor_detection/data/external/xenova_sponsorblock_768"
+raw_audit_output_path = "reports/smart_segments_raw_data_audit.json"
+trainability_audit_output_path = "reports/smart_segments_trainability_audit.json"
+
+# SponsorBlock mirror category identifiers, in the plan's V1 through V3 order.
+categories = [
+    "sponsor",
+    "selfpromo",
+    "interaction",
+    "preview",
+    "hook",
+    "intro",
+    "outro",
+    "music_offtopic",
+    "filler",
+]
+language_prefixes = ["en"]
+scriptsmith_revision = "scriptsmith-sponsorblock-2024"
+
+encoder = "jhu-clsp/ettin-encoder-17m"
+encoder_revision = "987607455c61e7a5bbc85f7758e0512ea6d0ae4c"
+max_length = 1024
+overlap_tokens = 128
+maximum_video_duration_seconds = 14400
+minimum_cues = 10
+maximum_videos = 0
+compute_sha256 = true
+# Optional JSONL of reviewed confirmed-negative intervals for Audit B. Absent a
+# source that guarantees exhaustive coverage, missing annotations stay UNKNOWN.
+# negative_evidence_path = "data/smart_segments/confirmed_negatives.jsonl"
+
+[eligibility]
+category = "sponsor"
+service = "YouTube"
+action_type = "skip"
+minimum_votes = 0
+exclude_hidden = true
+exclude_shadow_hidden = true
+duration_tolerance_seconds = 1.0
+duration_tolerance_ratio = 0.01

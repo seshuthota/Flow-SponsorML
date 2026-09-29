@@ -4,10 +4,12 @@
 __pycache__/
 *.egg-info/
 
-# Generated artifacts, model weights and training corpora
-artifacts/
-checkpoints/
-data/
+# Generated artifacts, model weights and training corpora. These are anchored
+# to the repository root so the tracked src/sponsor_detection/data package is
+# not caught by the `data` pattern.
+/artifacts/
+/checkpoints/
+/data/
 
 # Training and evaluation logs
 reports/*.log

@@ -317,6 +317,46 @@ def _load_scriptsmith_dataset_configuration(path: Path) -> dict[str, object]:
     }
 
 
+def _load_smart_segments_audit_configuration(path: Path) -> dict[str, object]:
+    with path.open("rb") as source:
+        configuration = tomllib.load(source)
+    smart = configuration.get("smart_segments", {})
+    xenova_directory = smart.get("xenova_directory")
+    return {
+        "mirror_path": Path(smart["mirror_path"]),
+        "subtitles_directory": Path(smart["subtitles_directory"]),
+        "metadata_directory": Path(smart["metadata_directory"]),
+        "xenova_directory": Path(xenova_directory) if xenova_directory else None,
+        "raw_audit_output_path": Path(smart["raw_audit_output_path"]),
+        "trainability_audit_output_path": Path(
+            smart["trainability_audit_output_path"]
+        ),
+        "categories": [str(value) for value in smart.get("categories", [])],
+        "language_prefixes": [
+            str(value) for value in smart.get("language_prefixes", ["en"])
+        ],
+        "scriptsmith_revision": str(
+            smart.get("scriptsmith_revision", "scriptsmith-sponsorblock-2024")
+        ),
+        "encoder": str(smart["encoder"]),
+        "encoder_revision": str(smart["encoder_revision"]),
+        "max_length": int(smart.get("max_length", 1024)),
+        "overlap_tokens": int(smart.get("overlap_tokens", 128)),
+        "maximum_video_duration_seconds": int(
+            smart.get("maximum_video_duration_seconds", 14400)
+        ),
+        "minimum_cues": int(smart.get("minimum_cues", 10)),
+        "maximum_videos": int(smart.get("maximum_videos", 0)),
+        "compute_sha256": bool(smart.get("compute_sha256", True)),
+        "negative_evidence_path": (
+            Path(smart["negative_evidence_path"])
+            if smart.get("negative_evidence_path")
+            else None
+        ),
+        "eligibility": _eligibility_policy(configuration),
+    }
+
+
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="sponsor-detection")
     commands = parser.add_subparsers(dest="command", required=True)
@@ -555,6 +595,32 @@ def _build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path("config/scriptsmith_dataset.toml"),
     )
+    smart_segments_parser = commands.add_parser(
+        "smart-segments", help="Smart Segments data audits"
+    )
+    smart_segments_commands = smart_segments_parser.add_subparsers(
+        dest="smart_segments_command", required=True
+    )
+    raw_audit_parser = smart_segments_commands.add_parser(
+        "audit-raw",
+        help="Audit raw multicategory availability before any model preprocessing",
+    )
+    raw_audit_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("config/smart_segments_audit.toml"),
+    )
+    raw_audit_parser.add_argument("--maximum-videos", type=int, default=None)
+    trainability_parser = smart_segments_commands.add_parser(
+        "audit-trainability",
+        help="Apply the pinned preprocessing pipeline to the eligible records",
+    )
+    trainability_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("config/smart_segments_audit.toml"),
+    )
+    trainability_parser.add_argument("--maximum-videos", type=int, default=None)
     return parser
 
 
@@ -974,6 +1040,103 @@ def main(arguments: Sequence[str] | None = None) -> int:
         manifest = build_replay_dataset(**arguments)
         print(f"wrote replay dataset manifest: {configuration['output_manifest_path']}")
         print(f"train rows: {manifest['selection']['total_rows']}")
+        return 0
+    if options.command == "smart-segments" and options.smart_segments_command == "audit-raw":
+        from sponsor_detection.data.smart_segments_audit import build_raw_data_audit
+
+        configuration = _load_smart_segments_audit_configuration(options.config)
+        maximum_videos = (
+            options.maximum_videos
+            if options.maximum_videos is not None
+            else configuration["maximum_videos"]
+        )
+        report = build_raw_data_audit(
+            configuration["mirror_path"],
+            configuration["subtitles_directory"],
+            configuration["metadata_directory"],
+            configuration["raw_audit_output_path"],
+            categories=configuration["categories"],
+            language_prefixes=configuration["language_prefixes"],
+            eligibility=configuration["eligibility"],
+            xenova_directory=configuration["xenova_directory"],
+            scriptsmith_revision=configuration["scriptsmith_revision"],
+            maximum_videos=maximum_videos,
+            compute_sha256=configuration["compute_sha256"],
+            progress_callback=_print_stage_progress,
+        )
+        print(f"wrote raw data audit: {configuration['raw_audit_output_path']}")
+        print(
+            json.dumps(
+                {
+                    category: {
+                        "transcript_videos": values["transcript_videos"],
+                        "segments": values["segments"],
+                        "positive_duration_seconds": values[
+                            "positive_duration_seconds"
+                        ],
+                    }
+                    for category, values in report["table"].items()
+                },
+                indent=2,
+                sort_keys=True,
+            )
+        )
+        return 0
+    if (
+        options.command == "smart-segments"
+        and options.smart_segments_command == "audit-trainability"
+    ):
+        from sponsor_detection.data.smart_segments_audit import (
+            build_trainability_audit,
+        )
+
+        configuration = _load_smart_segments_audit_configuration(options.config)
+        maximum_videos = (
+            options.maximum_videos
+            if options.maximum_videos is not None
+            else configuration["maximum_videos"]
+        )
+        report = build_trainability_audit(
+            configuration["mirror_path"],
+            configuration["subtitles_directory"],
+            configuration["metadata_directory"],
+            configuration["trainability_audit_output_path"],
+            encoder=configuration["encoder"],
+            encoder_revision=configuration["encoder_revision"],
+            categories=configuration["categories"],
+            language_prefixes=configuration["language_prefixes"],
+            eligibility=configuration["eligibility"],
+            max_length=configuration["max_length"],
+            overlap_tokens=configuration["overlap_tokens"],
+            maximum_video_duration_seconds=configuration[
+                "maximum_video_duration_seconds"
+            ],
+            minimum_cues=configuration["minimum_cues"],
+            maximum_videos=maximum_videos,
+            compute_sha256=configuration["compute_sha256"],
+            raw_audit_path=configuration["raw_audit_output_path"],
+            negative_evidence_path=configuration["negative_evidence_path"],
+            progress_callback=_print_stage_progress,
+        )
+        print(
+            f"wrote trainability audit: "
+            f"{configuration['trainability_audit_output_path']}"
+        )
+        print(
+            json.dumps(
+                {
+                    category: {
+                        "positive_windows": values["positive_windows"],
+                        "unknown_windows": values["unknown_windows"],
+                        "positive_tokens": values["positive_tokens"],
+                        "unaligned_intervals": values["unaligned_intervals"],
+                    }
+                    for category, values in report["categories"].items()
+                },
+                indent=2,
+                sort_keys=True,
+            )
+        )
         return 0
     if options.command == "data" and options.data_command == "validate-tokenization":
         from sponsor_detection.train import validate_tokenization_from_config
