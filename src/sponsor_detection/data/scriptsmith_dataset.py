@@ -21,6 +21,7 @@ from sponsor_detection.data.profile import (
 from sponsor_detection.data.smart_segment_annotations import (
     load_canonical_annotations,
 )
+from sponsor_detection.data.smart_segment_supervision import positive_supervision
 from sponsor_detection.data.training_dataset import (
     SPLITS,
     DisjointSet,
@@ -597,6 +598,11 @@ def build_scriptsmith_dataset(
                 sponsor_spans = [
                     span for span in window_spans if span["category"] == "sponsor"
                 ]
+                supervision_evidence: dict[str, str] = {}
+                for span in window_spans:
+                    supervision_evidence.setdefault(
+                        str(span["category"]), str(span["current_segment_id"])
+                    )
                 identity = (
                     f"{video_id}\0{window.start_ms}\0{window.end_ms}\0{window.text}"
                 )
@@ -615,6 +621,9 @@ def build_scriptsmith_dataset(
                     "legacy_categories": categories,
                     "sponsor_spans": sponsor_spans,
                     "category_spans": window_spans,
+                    "category_supervision": positive_supervision(
+                        supervision_evidence
+                    ),
                 }
                 for field in batch:
                     batch[field].append(record[field])

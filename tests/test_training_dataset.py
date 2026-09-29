@@ -187,6 +187,10 @@ class TrainingDatasetTest(unittest.TestCase):
         positive_row = next(row for row in rows if row["label_kind"] == "positive")
         self.assertEqual(positive_row["sponsor_spans"][0]["category"], "sponsor")
         self.assertEqual(positive_row["category_spans"][0]["category"], "sponsor")
+        self.assertEqual(
+            positive_row["category_supervision"],
+            [{"category": "sponsor", "state": "POSITIVE", "evidence_id": "SP1"}],
+        )
         self.assertEqual(manifest["configuration"]["annotation_category"], "sponsor")
 
 

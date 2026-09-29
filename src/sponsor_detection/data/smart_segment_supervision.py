@@ -197,3 +197,18 @@ def token_supervision(
         offset_mapping, positive_spans=positive_spans, negative_spans=negative_spans
     )
     return states, loss_mask(states)
+
+
+def positive_supervision(
+    category_evidence: dict[str, str],
+) -> list[dict[str, str]]:
+    """Build POSITIVE supervision entries from category -> evidence id.
+
+    Categories absent from the map stay UNKNOWN; this helper never emits a
+    negative, because a missing annotation is not evidence of absence.
+    """
+
+    return [
+        {"category": category, "state": POSITIVE, "evidence_id": evidence_id}
+        for category, evidence_id in sorted(category_evidence.items())
+    ]

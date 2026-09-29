@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Iterable, Sequence
 
 from sponsor_detection.data.profile import sha256_file, write_json_atomic
+from sponsor_detection.data.smart_segment_supervision import positive_supervision
 
 
 SPONSOR_SPAN_PATTERN = re.compile(
@@ -234,6 +235,11 @@ def _assess_row(
         label_kind = "hard_negative" if categories else "ordinary_negative"
         sample_weight = 1.0 if categories else 0.5
 
+    supervision_evidence: dict[str, str] = {}
+    for span in sponsor_spans:
+        supervision_evidence.setdefault(
+            str(span["category"]), str(span["current_segment_id"])
+        )
     return (
         {
             "video_index": int(row["video_index"]),
@@ -246,6 +252,7 @@ def _assess_row(
             "legacy_categories": categories,
             "sponsor_spans": sponsor_spans,
             "category_spans": sponsor_spans,
+            "category_supervision": positive_supervision(supervision_evidence),
         },
         "accepted",
     )
@@ -282,6 +289,13 @@ def _parquet_schema(metadata: dict[bytes, bytes]):
             ("category", pa.string()),
         ]
     )
+    supervision = pa.struct(
+        [
+            ("category", pa.string()),
+            ("state", pa.string()),
+            ("evidence_id", pa.string()),
+        ]
+    )
     return pa.schema(
         [
             ("example_id", pa.string()),
@@ -298,6 +312,7 @@ def _parquet_schema(metadata: dict[bytes, bytes]):
             ("legacy_categories", pa.list_(pa.string())),
             ("sponsor_spans", pa.list_(span)),
             ("category_spans", pa.list_(span)),
+            ("category_supervision", pa.list_(supervision)),
         ],
         metadata=metadata,
     )
@@ -319,6 +334,7 @@ def _empty_batch() -> dict[str, list[object]]:
         "legacy_categories": [],
         "sponsor_spans": [],
         "category_spans": [],
+        "category_supervision": [],
     }
 
 

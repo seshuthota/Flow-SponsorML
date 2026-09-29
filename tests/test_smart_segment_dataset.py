@@ -220,6 +220,30 @@ class SmartSegmentDatasetTest(unittest.TestCase):
         for row in positives:
             self.assertTrue(set(row["legacy_categories"]) <= {"SPONSOR", "SELFPROMO", "INTERACTION"})
 
+    def test_emits_explicit_positive_supervision_with_evidence(self) -> None:
+        self._build()
+        overlapping = [
+            row
+            for row in self._rows()
+            if {"sponsor", "selfpromo"}
+            <= {entry["category"] for entry in row["category_supervision"]}
+        ]
+
+        self.assertTrue(overlapping)
+        entries = {
+            entry["category"]: entry for entry in overlapping[0]["category_supervision"]
+        }
+        self.assertEqual(entries["sponsor"]["state"], "POSITIVE")
+        self.assertEqual(entries["sponsor"]["evidence_id"], "SP1")
+        self.assertEqual(entries["selfpromo"]["state"], "POSITIVE")
+
+    def test_negative_windows_have_no_supervision(self) -> None:
+        self._build()
+        for row in self._rows():
+            if row["label_kind"] == "positive":
+                continue
+            self.assertEqual(row["category_supervision"], [])
+
 
 if __name__ == "__main__":
     unittest.main()

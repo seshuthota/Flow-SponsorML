@@ -12,6 +12,7 @@ from sponsor_detection.data.smart_segment_supervision import (
     UNKNOWN,
     loss_mask,
     load_confirmed_negatives,
+    positive_supervision,
     token_states,
     window_category_states,
 )
@@ -162,6 +163,18 @@ class SupervisionContractTest(unittest.TestCase):
         states = token_states([(0, 0), (0, 0)], positive_spans=[(0, 5)])
 
         self.assertEqual(states, [UNKNOWN, UNKNOWN])
+
+    def test_positive_supervision_never_emits_negatives(self) -> None:
+        entries = positive_supervision({"selfpromo": "PP1", "sponsor": "SP1"})
+
+        self.assertEqual(
+            entries,
+            [
+                {"category": "selfpromo", "state": POSITIVE, "evidence_id": "PP1"},
+                {"category": "sponsor", "state": POSITIVE, "evidence_id": "SP1"},
+            ],
+        )
+        self.assertEqual(positive_supervision({}), [])
 
 
 if __name__ == "__main__":
