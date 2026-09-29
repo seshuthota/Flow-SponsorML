@@ -1,0 +1,13 @@
+[release]
+model_version = "smart-segments-v1"
+
+[export]
+checkpoint_directory = "checkpoints/smart_segments_ettin_17m"
+output_directory = "artifacts/smart_segments"
+encoder_revision = "987607455c61e7a5bbc85f7758e0512ea6d0ae4c"
+# Symbolic sequence axis is dynamic; 256 is only the export tracing length.
+sequence_length = 256
+opset_version = 17
+# Match the sponsor export: quantize the embedding Gather only, because
+# quantizing the encoder matmuls cost more accuracy than it saved size.
+quantize_op_types = ["Gather"]

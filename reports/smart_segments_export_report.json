@@ -1,0 +1,39 @@
+{
+  "artifacts": {
+    "fp32": {
+      "bytes": 67391428,
+      "path": "artifacts/smart_segments/smart_segments.fp32.onnx",
+      "sha256": "f9e09fd725a43e85a49c3007f5ba39932c5b1b7e60261903270867c8bb2e3ac6"
+    },
+    "int8": {
+      "bytes": 28784208,
+      "path": "artifacts/smart_segments/smart_segments.int8.onnx",
+      "sha256": "1ae4bacd87ce1f1c0bd7f08583fdfc57ecc87f912d39793946bd1a870c3bc303"
+    },
+    "manifest": "artifacts/smart_segments/manifest.json"
+  },
+  "categories": [
+    "sponsor",
+    "selfpromo",
+    "interaction"
+  ],
+  "generated_at": "2026-09-29T23:52:59.394464+00:00",
+  "input_characters": 5095,
+  "model_version": "smart-segments-v1",
+  "parity": {
+    "fp32": {
+      "argmax_agreement": 1.0,
+      "max_abs_logit_difference": 1e-05,
+      "mean_abs_logit_difference": 1e-06
+    },
+    "int8": {
+      "argmax_agreement": 1.0,
+      "max_abs_logit_difference": 0.125637,
+      "mean_abs_logit_difference": 0.030632
+    }
+  },
+  "verified_artifacts": {
+    "model": "1ae4bacd87ce1f1c0bd7f08583fdfc57ecc87f912d39793946bd1a870c3bc303",
+    "tokenizer": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30"
+  }
+}

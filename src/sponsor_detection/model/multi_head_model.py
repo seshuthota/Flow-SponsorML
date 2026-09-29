@@ -126,13 +126,20 @@ def load_multi_head_classifier(
                 loss = masked_cross_entropy(logits, labels, loss_mask)
             return {"loss": loss, "logits": logits}
 
-        def save_pretrained(self, output_directory):
+        def save_pretrained(
+            self,
+            output_directory,
+            state_dict=None,
+            safe_serialization=True,
+            **kwargs,
+        ):
             from safetensors.torch import save_file
 
             output_directory = Path(output_directory)
             output_directory.mkdir(parents=True, exist_ok=True)
+            weights = self.state_dict() if state_dict is None else state_dict
             save_file(
-                {key: value.contiguous() for key, value in self.state_dict().items()},
+                {key: value.contiguous() for key, value in weights.items()},
                 str(output_directory / "model.safetensors"),
             )
             (output_directory / "config.json").write_text(
@@ -208,6 +215,28 @@ class MultiHeadCollator:
         batch["labels"] = labels
         batch["loss_mask"] = loss_mask
         return batch
+
+
+def load_saved_multi_head(checkpoint_directory: Path, *, revision: str):
+    """Rebuild the trained classifier from its saved config and weights."""
+
+    from safetensors.torch import load_file
+
+    checkpoint_directory = Path(checkpoint_directory)
+    configuration = json.loads(
+        (checkpoint_directory / "config.json").read_text(encoding="utf-8")
+    )
+    model = load_multi_head_classifier(
+        categories=[str(category) for category in configuration["categories"]],
+        encoder_name=str(configuration["encoder"]),
+        revision=revision,
+        dropout=float(configuration.get("dropout", 0.1)),
+        sponsor_checkpoint=None,
+    )
+    state = load_file(str(checkpoint_directory / "model.safetensors"))
+    model.load_state_dict(state, strict=True)
+    model.eval()
+    return model
 
 
 def build_optimizer(model, *, encoder_learning_rate: float, head_learning_rate: float, weight_decay: float):

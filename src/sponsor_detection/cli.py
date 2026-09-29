@@ -547,6 +547,15 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     smart_train_parser.add_argument("--smoke-test", action="store_true")
     smart_train_parser.add_argument("--resume-from-checkpoint", type=Path, default=None)
+    export_smart_parser = commands.add_parser(
+        "export-smart-segments",
+        help="Export the multi-head model to a versioned ONNX bundle",
+    )
+    export_smart_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("config/export_smart_segments.toml"),
+    )
     train_parser.add_argument(
         "--resume-from-checkpoint",
         type=Path,
@@ -787,6 +796,12 @@ def _print_metadata_progress(request: int, request_limit: int, attempted: int) -
 
 def main(arguments: Sequence[str] | None = None) -> int:
     options = _build_parser().parse_args(arguments)
+    if options.command == "export-smart-segments":
+        from sponsor_detection.multi_head_export import export_multi_head_from_config
+
+        report = export_multi_head_from_config(options.config)
+        print(json.dumps(report, indent=2, sort_keys=True))
+        return 0
     if options.command == "train-smart-segments":
         from sponsor_detection.train import train_multi_head_from_config
 

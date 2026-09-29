@@ -1,0 +1,55 @@
+{
+  "categories": {
+    "0": "sponsor",
+    "1": "selfpromo",
+    "2": "interaction"
+  },
+  "decoder_config_sha256": "a5277939f8020ed622c9c2bc9ce4cf1c766f05809b097c58cd5faa186b0be310",
+  "decoder_version": 1,
+  "inputs": {
+    "attention_mask": {
+      "dtype": "int64",
+      "shape": [
+        "batch",
+        "sequence"
+      ]
+    },
+    "input_ids": {
+      "dtype": "int64",
+      "shape": [
+        "batch",
+        "sequence"
+      ]
+    }
+  },
+  "labels": {
+    "0": "O",
+    "1": "B",
+    "2": "I",
+    "3": "L",
+    "4": "U"
+  },
+  "minimum_android_runtime_version": 1,
+  "model": {
+    "file": "smart_segments.int8.onnx",
+    "sha256": "1ae4bacd87ce1f1c0bd7f08583fdfc57ecc87f912d39793946bd1a870c3bc303"
+  },
+  "model_version": "smart-segments-v1",
+  "normalization_version": 1,
+  "outputs": {
+    "segment_logits": {
+      "dtype": "float32",
+      "shape": [
+        "batch",
+        "sequence",
+        "category",
+        "bilou"
+      ]
+    }
+  },
+  "schema_version": 1,
+  "tokenizer": {
+    "file": "tokenizer.json",
+    "sha256": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30"
+  }
+}
