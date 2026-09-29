@@ -1,0 +1,29 @@
+[scriptsmith_dataset]
+subtitles_directory = "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/subtitles"
+metadata_directory = "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/video_metadata"
+mirror_path = "../Flow/sb-mirror/sponsorTimes.csv"
+# Milestone 3: read the canonical multicategory table instead of the raw mirror.
+annotations_path = "data/smart_segments/smart_segment_annotations.parquet"
+provenance_path = "reports/scriptsmith_dataset_provenance.json"
+# The prior sponsor-only splits live in the Flow checkout and are not present
+# here. Splits are still video-, channel- and campaign-disjoint internally.
+exclude_split_directories = []
+output_directory = "data/training/smart_segments_windows"
+manifest_path = "reports/smart_segments_windows_manifest.json"
+
+encoder = "jhu-clsp/ettin-encoder-17m"
+encoder_revision = "987607455c61e7a5bbc85f7758e0512ea6d0ae4c"
+max_length = 1024
+overlap_tokens = 128
+seed = "flow-smart-segments-v1"
+train_fraction = 0.80
+validation_fraction = 0.10
+language_prefixes = ["en"]
+# V1 categories. With categories as positives, the hard-negative lane is empty.
+positive_categories = ["sponsor", "selfpromo", "interaction"]
+hard_negative_categories = []
+ordinary_negative_windows_per_video = 4
+ordinary_negative_weight = 0.5
+maximum_video_duration_seconds = 14400
+minimum_cues = 10
+maximum_videos = 0

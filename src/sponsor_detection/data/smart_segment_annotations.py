@@ -5,11 +5,11 @@ import json
 import os
 import tempfile
 import time
-from collections import Counter
-from dataclasses import asdict
+from collections import Counter, defaultdict
+from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Callable
+from typing import Callable, Sequence
 
 from sponsor_detection.data.profile import (
     REQUIRED_COLUMNS,
@@ -297,3 +297,66 @@ def build_smart_segment_annotations(
     }
     write_json_atomic(manifest_path, report)
     return report
+
+
+@dataclass(frozen=True, slots=True)
+class CanonicalAnnotation:
+    video_id: str
+    segment_id: str
+    category: str
+    start_ms: int
+    end_ms: int
+
+
+def load_canonical_annotations(
+    path: Path,
+    *,
+    video_ids: set[str] | None = None,
+    categories: Sequence[str] | None = None,
+    eligible_only: bool = True,
+    batch_size: int = 131_072,
+) -> dict[str, list[CanonicalAnnotation]]:
+    """Read the canonical annotation table, grouped and sorted by video.
+
+    This is the single join point every downstream builder uses instead of
+    re-interpreting the raw mirror. Cross-category overlaps are returned
+    intact; each annotation keeps its own category identity.
+    """
+
+    import pyarrow.parquet as parquet
+
+    columns = ["video_id", "segment_id", "category", "start_ms", "end_ms", "is_eligible"]
+    category_set = set(categories) if categories is not None else None
+    annotations: dict[str, list[CanonicalAnnotation]] = defaultdict(list)
+    file = parquet.ParquetFile(path)
+    available = set(file.schema_arrow.names)
+    missing = [column for column in columns if column not in available]
+    if missing:
+        raise ValueError(
+            f"canonical annotation table is missing columns: {', '.join(missing)}"
+        )
+    for batch in file.iter_batches(columns=columns, batch_size=batch_size):
+        values = batch.to_pydict()
+        for video_id, segment_id, category, start_ms, end_ms, is_eligible in zip(
+            *(values[column] for column in columns), strict=True
+        ):
+            if video_id is None or start_ms is None or end_ms is None:
+                continue
+            if video_ids is not None and video_id not in video_ids:
+                continue
+            if category_set is not None and category not in category_set:
+                continue
+            if eligible_only and not is_eligible:
+                continue
+            annotations[str(video_id)].append(
+                CanonicalAnnotation(
+                    video_id=str(video_id),
+                    segment_id=str(segment_id) if segment_id is not None else "",
+                    category=str(category),
+                    start_ms=int(start_ms),
+                    end_ms=int(end_ms),
+                )
+            )
+    for records in annotations.values():
+        records.sort(key=lambda annotation: (annotation.start_ms, annotation.end_ms))
+    return annotations

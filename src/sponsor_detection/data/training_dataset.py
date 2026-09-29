@@ -27,6 +27,7 @@ class CurrentSegment:
     segment_id: str
     start_ms: int
     end_ms: int
+    category: str = "sponsor"
 
 
 class DisjointSet:
@@ -95,24 +96,45 @@ def _iter_source_rows(dataset_directory: Path):
 
 
 def _load_current_segments(
-    path: Path, relevant_video_ids: set[str]
+    path: Path,
+    relevant_video_ids: set[str],
+    *,
+    category: str | None = None,
 ) -> dict[str, list[CurrentSegment]]:
     import pyarrow.parquet as parquet
 
     segments: dict[str, list[CurrentSegment]] = defaultdict(list)
     file = parquet.ParquetFile(path)
+    has_category = "category" in set(file.schema_arrow.names)
     columns = ["video_id", "segment_id", "start_ms", "end_ms", "is_eligible"]
+    if has_category:
+        columns.append("category")
     for batch in file.iter_batches(columns=columns, batch_size=131_072):
-        values = [batch.column(column).to_pylist() for column in columns]
-        for video_id, segment_id, start_ms, end_ms, eligible in zip(
-            *values, strict=True
+        values = batch.to_pydict()
+        for index, (video_id, segment_id, start_ms, end_ms, eligible) in enumerate(
+            zip(
+                values["video_id"],
+                values["segment_id"],
+                values["start_ms"],
+                values["end_ms"],
+                values["is_eligible"],
+                strict=True,
+            )
         ):
             if eligible and video_id in relevant_video_ids:
+                row_category = (
+                    str(values["category"][index])
+                    if has_category and values["category"][index] is not None
+                    else (category or "sponsor")
+                )
+                if category is not None and has_category and row_category != category:
+                    continue
                 segments[video_id].append(
                     CurrentSegment(
                         segment_id=str(segment_id),
                         start_ms=int(start_ms),
                         end_ms=int(end_ms),
+                        category=row_category,
                     )
                 )
     for video_segments in segments.values():
@@ -154,6 +176,9 @@ def _assess_row(
         return None, "unaligned_sponsor_text"
 
     current = current_segments.get(video_id, [])
+    # The Xenova snapshot's extracted text only encodes sponsor spans, so a
+    # positive span may only match a canonical sponsor interval.
+    sponsor_current = [segment for segment in current if segment.category == "sponsor"]
     sponsor_spans: list[dict[str, object]] = []
     if char_spans:
         legacy = sorted(
@@ -183,7 +208,7 @@ def _assess_row(
                     ),
                     candidate,
                 )
-                for candidate in current
+                for candidate in sponsor_current
             ]
             best_iou, best_segment = max(matches, default=(0.0, None), key=lambda item: item[0])
             if best_segment is None or best_iou < current_iou_threshold:
@@ -198,6 +223,7 @@ def _assess_row(
                     "current_segment_id": best_segment.segment_id,
                     "current_iou": round(best_iou, 6),
                     "campaign_hash": _campaign_hash(sponsor_text),
+                    "category": best_segment.category,
                 }
             )
         label_kind = "positive"
@@ -219,6 +245,7 @@ def _assess_row(
             "sample_weight": sample_weight,
             "legacy_categories": categories,
             "sponsor_spans": sponsor_spans,
+            "category_spans": sponsor_spans,
         },
         "accepted",
     )
@@ -252,6 +279,7 @@ def _parquet_schema(metadata: dict[bytes, bytes]):
             ("current_segment_id", pa.string()),
             ("current_iou", pa.float32()),
             ("campaign_hash", pa.string()),
+            ("category", pa.string()),
         ]
     )
     return pa.schema(
@@ -269,6 +297,7 @@ def _parquet_schema(metadata: dict[bytes, bytes]):
             ("sample_weight", pa.float32()),
             ("legacy_categories", pa.list_(pa.string())),
             ("sponsor_spans", pa.list_(span)),
+            ("category_spans", pa.list_(span)),
         ],
         metadata=metadata,
     )
@@ -289,6 +318,7 @@ def _empty_batch() -> dict[str, list[object]]:
         "sample_weight": [],
         "legacy_categories": [],
         "sponsor_spans": [],
+        "category_spans": [],
     }
 
 
@@ -306,6 +336,7 @@ def build_training_dataset(
     current_iou_threshold: float,
     batch_size: int = 8192,
     metadata_path: Path | None = None,
+    annotation_category: str | None = None,
     progress_callback=None,
 ) -> dict[str, object]:
     if not 0 < train_fraction < 1:
@@ -331,7 +362,9 @@ def build_training_dataset(
     relevant_video_ids = set(old_segments)
     if progress_callback:
         progress_callback("loading current SponsorBlock intervals")
-    current_segments = _load_current_segments(current_labels_path, relevant_video_ids)
+    current_segments = _load_current_segments(
+        current_labels_path, relevant_video_ids, category=annotation_category
+    )
     metadata = _load_metadata(metadata_path)
 
     accepted_videos: set[str] = set()
@@ -565,6 +598,7 @@ def build_training_dataset(
             "test_fraction": round(1 - train_fraction - validation_fraction, 6),
             "current_iou_threshold": current_iou_threshold,
             "metadata_path": str(metadata_path) if metadata_path else None,
+            "annotation_category": annotation_category,
         },
         "sources": {
             "xenova_revision": dataset_profile["source"]["revision"],

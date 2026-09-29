@@ -116,5 +116,79 @@ class TrainingDatasetTest(unittest.TestCase):
         self.assertEqual(manifest["leakage"]["video"]["train_test"], 0)
 
 
+    def test_consumes_canonical_category_column(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "source"
+            source.mkdir()
+            positive = {
+                "video_index": 1,
+                "video_id": "abcdefghijk",
+                "text": "intro sponsored by acme outro",
+                "start": 0.0,
+                "end": 10.0,
+                "extracted": "START_SPONSOR_TOKEN sponsored by acme END_SPONSOR_TOKEN",
+            }
+            for split, records in (
+                ("train", [positive]),
+                ("valid", []),
+                ("test", []),
+            ):
+                (source / f"{split}.json").write_text(
+                    "".join(json.dumps(record) + "\n" for record in records),
+                    encoding="utf-8",
+                )
+            (source / "segments.json").write_text(
+                json.dumps(
+                    {"abcdefghijk": [{"start": 1.0, "end": 5.0, "category": "sponsor"}]}
+                ),
+                encoding="utf-8",
+            )
+            profile_path = root / "profile.json"
+            profile_path.write_text(
+                json.dumps({"source": {"revision": "fixture"}}), encoding="utf-8"
+            )
+            labels_path = root / "annotations.parquet"
+            parquet.write_table(
+                pa.table(
+                    {
+                        "video_id": ["abcdefghijk", "abcdefghijk"],
+                        "segment_id": ["SP1", "PP1"],
+                        "category": ["sponsor", "selfpromo"],
+                        "start_ms": [1000, 2000],
+                        "end_ms": [5000, 3000],
+                        "is_eligible": [True, True],
+                    }
+                ),
+                labels_path,
+            )
+            labels_manifest = root / "annotations-manifest.json"
+            labels_manifest.write_text(
+                json.dumps({"output": {"sha256": sha256_file(labels_path)}}),
+                encoding="utf-8",
+            )
+            output = root / "output"
+            manifest = build_training_dataset(
+                source,
+                profile_path,
+                labels_path,
+                labels_manifest,
+                output,
+                root / "manifest.json",
+                seed="fixture",
+                train_fraction=0.6,
+                validation_fraction=0.2,
+                current_iou_threshold=0.5,
+                batch_size=1,
+                annotation_category="sponsor",
+            )
+            rows = parquet.read_table(output / "train.parquet").to_pylist()
+
+        positive_row = next(row for row in rows if row["label_kind"] == "positive")
+        self.assertEqual(positive_row["sponsor_spans"][0]["category"], "sponsor")
+        self.assertEqual(positive_row["category_spans"][0]["category"], "sponsor")
+        self.assertEqual(manifest["configuration"]["annotation_category"], "sponsor")
+
+
 if __name__ == "__main__":
     unittest.main()

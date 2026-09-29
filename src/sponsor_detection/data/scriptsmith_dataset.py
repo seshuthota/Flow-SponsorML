@@ -18,6 +18,9 @@ from sponsor_detection.data.profile import (
     sha256_file,
     write_json_atomic,
 )
+from sponsor_detection.data.smart_segment_annotations import (
+    load_canonical_annotations,
+)
 from sponsor_detection.data.training_dataset import (
     SPLITS,
     DisjointSet,
@@ -355,6 +358,8 @@ def build_scriptsmith_dataset(
     ordinary_negative_weight: float = 0.5,
     provenance_path: Path | None = None,
     maximum_videos: int = 0,
+    annotations_path: Path | None = None,
+    tokenizer: object | None = None,
     progress_callback: Callable[[str], None] | None = None,
 ) -> dict[str, object]:
     if not 0 < train_fraction < 1:
@@ -388,17 +393,40 @@ def build_scriptsmith_dataset(
     relevant_ids = set(metadata) - excluded_videos
     if progress_callback:
         progress_callback(f"loading labels for {len(relevant_ids):,} videos")
-    labels = _load_labels(
-        mirror_path,
-        relevant_ids,
-        allowed_categories=allowed,
-    )
+    if annotations_path is not None:
+        canonical = load_canonical_annotations(
+            annotations_path,
+            video_ids=relevant_ids,
+            categories=sorted(allowed),
+            eligible_only=True,
+        )
+        labels = {
+            video_id: [
+                LabelSegment(
+                    segment_id=annotation.segment_id,
+                    start_ms=annotation.start_ms,
+                    end_ms=annotation.end_ms,
+                    category=annotation.category,
+                )
+                for annotation in records
+            ]
+            for video_id, records in canonical.items()
+        }
+    else:
+        labels = _load_labels(
+            mirror_path,
+            relevant_ids,
+            allowed_categories=allowed,
+        )
     for video_id in relevant_ids:
         labels.setdefault(video_id, [])
 
     if progress_callback:
         progress_callback("loading tokenizer")
-    tokenizer = AutoTokenizer.from_pretrained(encoder, revision=encoder_revision)
+    if tokenizer is None:
+        from transformers import AutoTokenizer
+
+        tokenizer = AutoTokenizer.from_pretrained(encoder, revision=encoder_revision)
 
     funnel: Counter[str] = Counter()
     accepted_videos: set[str] = set()
@@ -481,7 +509,7 @@ def build_scriptsmith_dataset(
                 continue
 
             video_labels = labels.get(video_id, [])
-            sponsor_segments = [s for s in video_labels if s.category in positive]
+            positive_segments = [s for s in video_labels if s.category in positive]
             hard_segments = [s for s in video_labels if s.category in hard_negative]
 
             windows = []
@@ -501,8 +529,8 @@ def build_scriptsmith_dataset(
             video_accepted = False
             ordinary_emitted = 0
             for window in windows:
-                window_sponsor = []
-                for segment in sponsor_segments:
+                window_spans = []
+                for segment in positive_segments:
                     char_span = _char_span_for_interval(
                         transcript, segment.start_ms, segment.end_ms
                     )
@@ -513,7 +541,7 @@ def build_scriptsmith_dataset(
                     if local_end <= local_start or local_start < 0:
                         continue
                     text = transcript.text[char_span[0] : char_span[1]]
-                    window_sponsor.append(
+                    window_spans.append(
                         {
                             "start_char": local_start,
                             "end_char": local_end,
@@ -522,22 +550,31 @@ def build_scriptsmith_dataset(
                             "current_segment_id": segment.segment_id,
                             "current_iou": 1.0,
                             "campaign_hash": _campaign_hash(text),
+                            "category": segment.category,
                         }
                     )
-                if window_sponsor:
-                    window_sponsor.sort(
-                        key=lambda span: (span["start_char"], span["end_char"])
+                if window_spans:
+                    window_spans.sort(
+                        key=lambda span: (
+                            str(span["category"]),
+                            span["start_char"],
+                            span["end_char"],
+                        )
                     )
                     deduped: list[dict[str, object]] = []
-                    last_end = -1
-                    for span in window_sponsor:
+                    last_end_by_category: dict[str, int] = {}
+                    for span in window_spans:
+                        category = str(span["category"])
+                        last_end = last_end_by_category.get(category, -1)
                         if int(span["start_char"]) < last_end:
                             continue
                         deduped.append(span)
-                        last_end = int(span["end_char"])
-                    window_sponsor = deduped
+                        last_end_by_category[category] = int(span["end_char"])
+                    window_spans = deduped
                     label_kind = "positive"
-                    categories = sorted({c.upper() for c in positive})
+                    categories = sorted(
+                        {str(span["category"]).upper() for span in window_spans}
+                    )
                     sample_weight = 1.0
                 else:
                     overlaps_hard = any(
@@ -557,6 +594,9 @@ def build_scriptsmith_dataset(
                         categories = []
                         sample_weight = ordinary_negative_weight
 
+                sponsor_spans = [
+                    span for span in window_spans if span["category"] == "sponsor"
+                ]
                 identity = (
                     f"{video_id}\0{window.start_ms}\0{window.end_ms}\0{window.text}"
                 )
@@ -573,13 +613,14 @@ def build_scriptsmith_dataset(
                     "label_kind": label_kind,
                     "sample_weight": sample_weight,
                     "legacy_categories": categories,
-                    "sponsor_spans": window_sponsor,
+                    "sponsor_spans": sponsor_spans,
+                    "category_spans": window_spans,
                 }
                 for field in batch:
                     batch[field].append(record[field])
                 label_kind_counts[label_kind] += 1
                 videos_by_label = campaigns_by_video.setdefault(video_id, set())
-                for span in window_sponsor:
+                for span in sponsor_spans:
                     videos_by_label.add(str(span["campaign_hash"]))
                 video_accepted = True
                 if len(batch["video_id"]) >= 8192:
@@ -795,6 +836,12 @@ def build_scriptsmith_dataset(
             "subtitles_directory": str(subtitles_directory),
             "metadata_directory": str(metadata_directory),
             "mirror_path": str(mirror_path),
+            "annotations_path": str(annotations_path) if annotations_path else None,
+            "annotations_sha256": (
+                sha256_file(annotations_path)
+                if annotations_path is not None and annotations_path.exists()
+                else None
+            ),
             "provenance_path": str(provenance_path) if provenance_path else None,
             "provenance_sha256": (
                 sha256_file(provenance_path)

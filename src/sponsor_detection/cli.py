@@ -314,6 +314,11 @@ def _load_scriptsmith_dataset_configuration(path: Path) -> dict[str, object]:
         ),
         "maximum_videos": int(dataset.get("maximum_videos", 0)),
         "provenance_path": Path(provenance_path) if provenance_path else None,
+        "annotations_path": (
+            Path(dataset["annotations_path"])
+            if dataset.get("annotations_path")
+            else None
+        ),
     }
 
 
