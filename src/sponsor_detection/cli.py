@@ -536,6 +536,16 @@ def _build_parser() -> argparse.ArgumentParser:
         default=Path("config/train_ettin_17m.toml"),
     )
     train_parser.add_argument("--smoke-test", action="store_true")
+    smart_train_parser = commands.add_parser(
+        "train-smart-segments",
+        help="Fine-tune the multi-head smart segment classifier",
+    )
+    smart_train_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("config/train_smart_segments.toml"),
+    )
+    smart_train_parser.add_argument("--smoke-test", action="store_true")
     train_parser.add_argument(
         "--resume-from-checkpoint",
         type=Path,
@@ -776,6 +786,32 @@ def _print_metadata_progress(request: int, request_limit: int, attempted: int) -
 
 def main(arguments: Sequence[str] | None = None) -> int:
     options = _build_parser().parse_args(arguments)
+    if options.command == "train-smart-segments":
+        from sponsor_detection.train import train_multi_head_from_config
+
+        report = train_multi_head_from_config(
+            options.config, smoke_test=options.smoke_test
+        )
+        print(
+            json.dumps(
+                {
+                    "model": report["model"],
+                    "categories": report["categories"],
+                    "smoke_test": report["smoke_test"],
+                    "validation": report["validation_metrics"].get(
+                        "eval_macro_token_f1"
+                    ),
+                    "test": (
+                        report["test_metrics"].get("test_macro_token_f1")
+                        if report["test_metrics"]
+                        else None
+                    ),
+                },
+                indent=2,
+                sort_keys=True,
+            )
+        )
+        return 0
     if options.command == "train":
         from sponsor_detection.train import train_from_config
 

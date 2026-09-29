@@ -305,3 +305,147 @@ def train_from_config(
     report_path.parent.mkdir(parents=True, exist_ok=True)
     report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return report
+
+
+def train_multi_head_from_config(
+    path: Path,
+    *,
+    smoke_test: bool = False,
+) -> dict[str, object]:
+    from datasets import load_dataset
+    from transformers import AutoTokenizer, Trainer, TrainingArguments, set_seed
+
+    from sponsor_detection.model.multi_head_model import (
+        MultiHeadCollator,
+        build_optimizer,
+        compute_metrics_factory,
+        load_multi_head_classifier,
+        tokenize_multi_head,
+    )
+
+    configuration = _load_configuration(path)
+    manifest = _verify_dataset(configuration)
+    model_configuration = configuration["model"]
+    training = configuration["training"]
+    categories = [str(category) for category in model_configuration["categories"]]
+    seed = int(training["seed"])
+    set_seed(seed)
+
+    data_files = {
+        split: str(configuration["dataset"][f"{split}_path"])
+        for split in ("train", "validation", "test")
+    }
+    dataset = load_dataset("parquet", data_files=data_files)
+    if smoke_test:
+        dataset["train"] = dataset["train"].select(range(min(32, len(dataset["train"]))))
+        dataset["validation"] = dataset["validation"].select(
+            range(min(8, len(dataset["validation"])))
+        )
+        dataset["test"] = dataset["test"].select(range(min(8, len(dataset["test"]))))
+
+    encoder_name = str(model_configuration["encoder"])
+    revision = str(model_configuration["revision"])
+    initial_checkpoint = model_configuration.get("initial_checkpoint")
+    max_length = int(model_configuration["max_length"])
+    tokenizer = AutoTokenizer.from_pretrained(encoder_name, revision=revision)
+    columns = dataset["train"].column_names
+    tokenized = dataset.map(
+        tokenize_multi_head(tokenizer, max_length, categories),
+        batched=True,
+        num_proc=1 if smoke_test else int(training.get("preprocessing_workers", 1)),
+        remove_columns=columns,
+        desc="Aligning category spans to tokens",
+    )
+    model = load_multi_head_classifier(
+        categories=categories,
+        encoder_name=encoder_name,
+        revision=revision,
+        dropout=float(model_configuration.get("dropout", 0.1)),
+        sponsor_checkpoint=(
+            Path(str(initial_checkpoint)) if initial_checkpoint else None
+        ),
+    )
+    output_directory = Path(str(training["output_directory"]))
+    arguments = TrainingArguments(
+        output_dir=str(output_directory),
+        learning_rate=float(training["learning_rate"]),
+        weight_decay=float(training["weight_decay"]),
+        warmup_steps=0 if smoke_test else int(training["warmup_steps"]),
+        num_train_epochs=0.01 if smoke_test else float(training["epochs"]),
+        per_device_train_batch_size=int(training["train_batch_size"]),
+        per_device_eval_batch_size=int(training["eval_batch_size"]),
+        gradient_accumulation_steps=int(training["gradient_accumulation_steps"]),
+        bf16=bool(training.get("bf16", True)),
+        eval_strategy="steps",
+        eval_steps=int(training["eval_steps"]),
+        eval_accumulation_steps=int(training.get("eval_accumulation_steps", 16)),
+        save_strategy="no" if smoke_test else "steps",
+        save_steps=int(training["save_steps"]),
+        logging_steps=1 if smoke_test else int(training["logging_steps"]),
+        save_total_limit=int(training.get("save_total_limit", 2)),
+        load_best_model_at_end=not smoke_test,
+        metric_for_best_model="macro_token_f1",
+        greater_is_better=True,
+        report_to=[],
+        seed=seed,
+        data_seed=seed,
+        max_steps=1 if smoke_test else -1,
+    )
+    trainer = Trainer(
+        model=model,
+        args=arguments,
+        train_dataset=tokenized["train"],
+        eval_dataset=tokenized["validation"],
+        processing_class=tokenizer,
+        data_collator=MultiHeadCollator(tokenizer),
+        compute_metrics=compute_metrics_factory(categories),
+        optimizers=(
+            build_optimizer(
+                model,
+                encoder_learning_rate=float(
+                    training.get("encoder_learning_rate", training["learning_rate"])
+                ),
+                head_learning_rate=float(
+                    training.get("head_learning_rate", training["learning_rate"])
+                ),
+                weight_decay=float(training["weight_decay"]),
+            ),
+            None,
+        ),
+    )
+    train_result = trainer.train()
+    evaluation = trainer.evaluate()
+    test_evaluation = (
+        None
+        if smoke_test
+        else trainer.evaluate(tokenized["test"], metric_key_prefix="test")
+    )
+    if not smoke_test:
+        trainer.save_model()
+        tokenizer.save_pretrained(output_directory)
+    report = {
+        "model": "smart_segment_multi_head",
+        "categories": categories,
+        "encoder": encoder_name,
+        "revision": revision,
+        "initial_checkpoint": str(initial_checkpoint) if initial_checkpoint else None,
+        "dataset_manifest_sha256": sha256_file(
+            Path(configuration["dataset"]["manifest_path"])
+        ),
+        "dataset_rows": {
+            split: manifest["outputs"][split]["rows"]
+            for split in ("train", "validation", "test")
+        },
+        "smoke_test": smoke_test,
+        "train_metrics": train_result.metrics,
+        "validation_metrics": evaluation,
+        "test_metrics": test_evaluation,
+    }
+    report_path = output_directory / (
+        "smoke_test_metrics.json" if smoke_test else "metrics.json"
+    )
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(
+        json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    return report
