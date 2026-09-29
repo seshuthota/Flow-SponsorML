@@ -1,0 +1,148 @@
+{
+  "build_seconds": 141.721,
+  "categories": [
+    "sponsor",
+    "selfpromo",
+    "interaction",
+    "preview",
+    "hook",
+    "intro",
+    "outro",
+    "music_offtopic",
+    "filler"
+  ],
+  "counts": {
+    "audited_rows": 20040926,
+    "by_category": {
+      "filler": 2992290,
+      "hook": 84740,
+      "interaction": 1707623,
+      "intro": 3720624,
+      "music_offtopic": 552951,
+      "outro": 2879758,
+      "preview": 729943,
+      "selfpromo": 2150895,
+      "sponsor": 5222102
+    },
+    "eligible_by_category": {
+      "filler": 721616,
+      "hook": 78383,
+      "interaction": 1569049,
+      "intro": 3360471,
+      "music_offtopic": 479421,
+      "outro": 2617656,
+      "preview": 656510,
+      "selfpromo": 1921488,
+      "sponsor": 4532860
+    },
+    "eligible_rows": 15937454,
+    "ineligible_rows": 4103472,
+    "malformed_rows": 0,
+    "source_rows": 21660746,
+    "written_rows": 20040926
+  },
+  "deduplication_policy": "preserve",
+  "eligibility_policy": {
+    "action_type": "skip",
+    "category": "sponsor",
+    "duration_tolerance_ratio": 0.01,
+    "duration_tolerance_seconds": 1.0,
+    "exclude_hidden": true,
+    "exclude_shadow_hidden": true,
+    "minimum_votes": 0,
+    "service": "YouTube"
+  },
+  "generated_at": "2026-09-29T19:30:52.188445+00:00",
+  "normalization_policy": "smart-segment-annotations/1",
+  "output": {
+    "bytes": 1182691098,
+    "compression": "zstd",
+    "path": "data/smart_segments/smart_segment_annotations.parquet",
+    "sha256": "c6b4e23e71b1f8686b97caacb9cc1f1be65068e3c186b76f12c4a9acdcdf238e"
+  },
+  "rejections_by_category": {
+    "filler": {
+      "below_minimum_votes": 94310,
+      "duration_mismatch": 58,
+      "hidden": 1830614,
+      "shadow_hidden": 353431,
+      "wrong_action_type": 7896,
+      "wrong_service": 5
+    },
+    "hook": {
+      "below_minimum_votes": 2385,
+      "hidden": 821,
+      "shadow_hidden": 3050,
+      "wrong_action_type": 290,
+      "wrong_service": 6
+    },
+    "interaction": {
+      "below_minimum_votes": 44406,
+      "duration_mismatch": 2518,
+      "hidden": 15210,
+      "invalid_interval": 29,
+      "shadow_hidden": 73288,
+      "wrong_action_type": 7890,
+      "wrong_service": 2
+    },
+    "intro": {
+      "below_minimum_votes": 147388,
+      "duration_mismatch": 147,
+      "hidden": 32441,
+      "invalid_interval": 67,
+      "shadow_hidden": 191111,
+      "wrong_action_type": 2244,
+      "wrong_service": 26
+    },
+    "music_offtopic": {
+      "below_minimum_votes": 52782,
+      "duration_mismatch": 1063,
+      "hidden": 3283,
+      "invalid_interval": 17,
+      "shadow_hidden": 20411,
+      "wrong_action_type": 2
+    },
+    "outro": {
+      "below_minimum_votes": 60127,
+      "duration_mismatch": 24517,
+      "hidden": 16562,
+      "invalid_interval": 56,
+      "shadow_hidden": 163807,
+      "wrong_action_type": 2147,
+      "wrong_service": 7
+    },
+    "preview": {
+      "below_minimum_votes": 33795,
+      "duration_mismatch": 27,
+      "hidden": 7919,
+      "invalid_interval": 1,
+      "shadow_hidden": 34394,
+      "wrong_action_type": 505,
+      "wrong_service": 3
+    },
+    "selfpromo": {
+      "below_minimum_votes": 102436,
+      "duration_mismatch": 1517,
+      "hidden": 29990,
+      "invalid_interval": 37727,
+      "shadow_hidden": 65883,
+      "wrong_action_type": 44769,
+      "wrong_service": 22
+    },
+    "sponsor": {
+      "below_minimum_votes": 344585,
+      "duration_mismatch": 3602,
+      "hidden": 148176,
+      "invalid_interval": 106651,
+      "shadow_hidden": 128575,
+      "wrong_action_type": 116713,
+      "wrong_service": 149
+    }
+  },
+  "schema_version": 1,
+  "source": {
+    "bytes": 6812995962,
+    "path": "../Flow/sb-mirror/sponsorTimes.csv",
+    "sha256": "68a425d9a64f68c9d8369c07fa88d97c2006723ab3dfe618c46578555cda58e2"
+  }
+}

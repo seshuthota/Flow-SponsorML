@@ -357,6 +357,27 @@ def _load_smart_segments_audit_configuration(path: Path) -> dict[str, object]:
     }
 
 
+def _load_smart_segment_annotations_configuration(path: Path) -> dict[str, object]:
+    with path.open("rb") as source:
+        configuration = tomllib.load(source)
+    annotations = configuration.get("smart_segment_annotations", {})
+    return {
+        "input_path": Path(annotations["input_path"]),
+        "output_path": Path(annotations["output_path"]),
+        "manifest_path": Path(annotations["manifest_path"]),
+        "categories": [str(value) for value in annotations["categories"]],
+        "deduplication_policy": str(
+            annotations.get("deduplication_policy", "preserve")
+        ),
+        "batch_size": int(annotations.get("batch_size", 100_000)),
+        "compression": str(annotations.get("compression", "zstd")),
+        "compute_sha256": bool(annotations.get("compute_sha256", True)),
+        "expected_source_sha256": annotations.get("expected_source_sha256"),
+        "progress_every_rows": int(annotations.get("progress_every_rows", 0)),
+        "eligibility": _eligibility_policy(configuration),
+    }
+
+
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="sponsor-detection")
     commands = parser.add_subparsers(dest="command", required=True)
@@ -621,6 +642,15 @@ def _build_parser() -> argparse.ArgumentParser:
         default=Path("config/smart_segments_audit.toml"),
     )
     trainability_parser.add_argument("--maximum-videos", type=int, default=None)
+    annotations_parser = smart_segments_commands.add_parser(
+        "build-annotations",
+        help="Normalize the mirror into the canonical annotation table",
+    )
+    annotations_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("config/smart_segment_annotations.toml"),
+    )
     return parser
 
 
@@ -1132,6 +1162,36 @@ def main(arguments: Sequence[str] | None = None) -> int:
                         "unaligned_intervals": values["unaligned_intervals"],
                     }
                     for category, values in report["categories"].items()
+                },
+                indent=2,
+                sort_keys=True,
+            )
+        )
+        return 0
+    if (
+        options.command == "smart-segments"
+        and options.smart_segments_command == "build-annotations"
+    ):
+        from sponsor_detection.data.smart_segment_annotations import (
+            build_smart_segment_annotations,
+        )
+
+        configuration = _load_smart_segment_annotations_configuration(options.config)
+        report = build_smart_segment_annotations(
+            configuration.pop("input_path"),
+            configuration.pop("output_path"),
+            configuration.pop("manifest_path"),
+            configuration.pop("eligibility"),
+            progress_callback=_print_label_progress,
+            **configuration,
+        )
+        print(f"wrote canonical annotations: {report['output']['path']}")
+        print(
+            json.dumps(
+                {
+                    "audited_rows": report["counts"]["audited_rows"],
+                    "eligible_rows": report["counts"]["eligible_rows"],
+                    "by_category": report["counts"]["by_category"],
                 },
                 indent=2,
                 sort_keys=True,

@@ -1,0 +1,38 @@
+[smart_segment_annotations]
+# Paths are resolved from the Flow-SponsorML repository root; the mirror lives
+# in the sibling Flow checkout.
+input_path = "../Flow/sb-mirror/sponsorTimes.csv"
+output_path = "data/smart_segments/smart_segment_annotations.parquet"
+manifest_path = "reports/smart_segment_annotations_manifest.json"
+
+# SponsorBlock mirror category identifiers, in the plan's V1 through V3 order.
+categories = [
+    "sponsor",
+    "selfpromo",
+    "interaction",
+    "preview",
+    "hook",
+    "intro",
+    "outro",
+    "music_offtopic",
+    "filler",
+]
+# One canonical row per mirror annotation keeps raw counts reproducible.
+# Cross-category overlaps are preserved under every policy.
+deduplication_policy = "preserve"
+batch_size = 100000
+compression = "zstd"
+compute_sha256 = true
+# Pinned in the first audit; set to the mirror's SHA-256 to fail fast on drift.
+# expected_source_sha256 = "..."
+progress_every_rows = 1000000
+
+[eligibility]
+category = "sponsor"
+service = "YouTube"
+action_type = "skip"
+minimum_votes = 0
+exclude_hidden = true
+exclude_shadow_hidden = true
+duration_tolerance_seconds = 1.0
+duration_tolerance_ratio = 0.01
