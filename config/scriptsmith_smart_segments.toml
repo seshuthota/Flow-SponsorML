@@ -5,9 +5,11 @@ mirror_path = "../Flow/sb-mirror/sponsorTimes.csv"
 # Milestone 3: read the canonical multicategory table instead of the raw mirror.
 annotations_path = "data/smart_segments/smart_segment_annotations.parquet"
 provenance_path = "reports/scriptsmith_dataset_provenance.json"
-# The prior sponsor-only splits live in the Flow checkout and are not present
-# here. Splits are still video-, channel- and campaign-disjoint internally.
-exclude_split_directories = []
+# Channels reserved by the benchmark build, so evaluation never shares a
+# channel with training.
+exclude_split_directories = [
+    "data/smart_segments/benchmark_reserved",
+]
 output_directory = "data/training/smart_segments_windows"
 manifest_path = "reports/smart_segments_windows_manifest.json"
 

@@ -132,6 +132,7 @@ def build_benchmark_candidates(
     language_prefixes: Sequence[str] = ("en",),
     maximum_video_duration_seconds: int = 14400,
     minimum_cues: int = 25,
+    reserved_directory: Path | None = None,
     progress_callback: Callable[[str], None] | None = None,
 ) -> dict[str, object]:
     """Build a full-transcript review queue for the V1 categories.
@@ -139,6 +140,12 @@ def build_benchmark_candidates(
     A reviewer sees the complete transcript rather than only the intervals the
     mirror already knows about, so content-heavy negatives and missed spans are
     discoverable.
+
+    When ``reserved_directory`` is set, the selected videos and channels are
+    written as a split-shaped exclusion the training builder consumes. The
+    benchmark must be reserved **before** the training splits are built;
+    otherwise the two draw from the same finite channel pool and no disjoint
+    benchmark can exist.
     """
 
     started = time.monotonic()
@@ -239,6 +246,29 @@ def build_benchmark_candidates(
             )
 
     counts = Counter(candidate.stratum for candidate in selected)
+    reserved: dict[str, object] = {"path": None, "sha256": None, "videos": 0}
+    if reserved_directory is not None:
+        import pyarrow as pa
+        import pyarrow.parquet as parquet
+
+        reserved_directory.mkdir(parents=True, exist_ok=True)
+        reserved_path = reserved_directory / "train.parquet"
+        parquet.write_table(
+            pa.table(
+                {
+                    "video_id": [candidate.video_id for candidate in selected],
+                    "channel_id": [candidate.channel_id for candidate in selected],
+                }
+            ),
+            reserved_path,
+            compression="zstd",
+        )
+        reserved = {
+            "path": str(reserved_path),
+            "sha256": sha256_file(reserved_path),
+            "videos": len(selected),
+        }
+
     manifest = {
         "version": BENCHMARK_VERSION,
         "generated_at": datetime.now(tz=UTC).isoformat(),
@@ -268,6 +298,7 @@ def build_benchmark_candidates(
             "bytes": output_path.stat().st_size,
             "sha256": sha256_file(output_path),
         },
+        "reserved": reserved,
         "elapsed_seconds": round(time.monotonic() - started, 3),
     }
     write_json_atomic(manifest_path, manifest)

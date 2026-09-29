@@ -396,6 +396,11 @@ def _load_smart_segment_benchmark_configuration(path: Path) -> dict[str, object]
         ],
         "review_path": Path(benchmark["review_path"]),
         "review_manifest_path": Path(benchmark["review_manifest_path"]),
+        "reserved_directory": (
+            Path(benchmark["reserved_directory"])
+            if benchmark.get("reserved_directory")
+            else None
+        ),
         "frozen_path": Path(benchmark["frozen_path"]),
         "frozen_manifest_path": Path(benchmark["frozen_manifest_path"]),
         "categories": [str(value) for value in benchmark["categories"]],

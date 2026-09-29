@@ -2,8 +2,9 @@
 subtitles_directory = "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/subtitles"
 metadata_directory = "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/video_metadata"
 annotations_path = "data/smart_segments/smart_segment_annotations.parquet"
-# Keep the benchmark disjoint from the frozen training splits.
-exclude_split_directories = ["data/training/smart_segments_windows"]
+# The benchmark reserves its channels here first; the training build excludes
+# this directory, which is what keeps the two channel-disjoint.
+reserved_directory = "data/smart_segments/benchmark_reserved"
 review_path = "data/smart_segments/benchmark_review.jsonl"
 review_manifest_path = "reports/smart_segments_benchmark_review_manifest.json"
 frozen_path = "data/smart_segments/smart_segments_benchmark.jsonl"

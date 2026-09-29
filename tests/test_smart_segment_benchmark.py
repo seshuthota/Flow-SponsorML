@@ -6,10 +6,14 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import pyarrow as pa
+import pyarrow.parquet as parquet
+
 from sponsor_detection.data.smart_segment_benchmark import (
     CONTENT_NEGATIVE_STRATUM,
     BenchmarkCandidate,
     _stratum_for,
+    build_benchmark_candidates,
     freeze_benchmark,
     select_candidates,
 )
@@ -210,6 +214,105 @@ class FreezeBenchmarkTest(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             freeze_benchmark(self.review, self.output, self.manifest, categories=CATEGORIES)
+
+
+class BuildBenchmarkCandidatesTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.directory = tempfile.TemporaryDirectory()
+        self.root = Path(self.directory.name)
+        self.subtitles = self.root / "subtitles"
+        self.metadata = self.root / "metadata"
+        self.subtitles.mkdir()
+        self.metadata.mkdir()
+        self.annotations = self.root / "annotations.parquet"
+        self.review = self.root / "review.jsonl"
+        self.manifest = self.root / "manifest.json"
+        self.reserved = self.root / "reserved"
+
+        def cues(*texts: str) -> str:
+            return json.dumps(
+                [
+                    {"start": index * 2.0, "end": index * 2.0 + 2.0, "text": text}
+                    for index, text in enumerate(texts)
+                ]
+            )
+
+        parquet.write_table(
+            pa.table(
+                {
+                    "video_id": ["V1", "V2", "V3"],
+                    "language": ["en", "en", "en"],
+                    "full_text": ["a b", "c d", "e f"],
+                    "segments_json": [
+                        cues("sponsor spot", "back to content"),
+                        cues("just talking", "more talking"),
+                        cues("my own course", "content resumes"),
+                    ],
+                }
+            ),
+            self.subtitles / "part-00000.parquet",
+        )
+        parquet.write_table(
+            pa.table(
+                {
+                    "id": ["V1", "V2", "V3"],
+                    "channel_id": ["CH1", "CH2", "CH3"],
+                    "timestamp": [1_600_000_000] * 3,
+                    "upload_date": ["20200913"] * 3,
+                    "language": ["en"] * 3,
+                    "availability": ["public"] * 3,
+                    "live_status": [None] * 3,
+                    "duration": [600] * 3,
+                }
+            ),
+            self.metadata / "part-00000.parquet",
+        )
+        parquet.write_table(
+            pa.table(
+                {
+                    "video_id": ["V1", "V3"],
+                    "segment_id": ["S1", "P1"],
+                    "category": ["sponsor", "selfpromo"],
+                    "start_ms": [0, 0],
+                    "end_ms": [2000, 2000],
+                    "is_eligible": [True, True],
+                }
+            ),
+            self.annotations,
+        )
+
+    def tearDown(self) -> None:
+        self.directory.cleanup()
+
+    def test_builds_stratified_queue_and_reserves_channels(self) -> None:
+        manifest = build_benchmark_candidates(
+            self.subtitles,
+            self.metadata,
+            self.annotations,
+            [],
+            self.review,
+            self.manifest,
+            categories=CATEGORIES,
+            targets={"sponsor": 5, "selfpromo": 5, CONTENT_NEGATIVE_STRATUM: 5},
+            seed="fixture",
+            minimum_cues=2,
+            reserved_directory=self.reserved,
+        )
+
+        records = [
+            json.loads(line)
+            for line in self.review.read_text(encoding="utf-8").splitlines()
+            if line
+        ]
+        self.assertEqual(
+            {record["stratum"] for record in records},
+            {"sponsor", "selfpromo", CONTENT_NEGATIVE_STRATUM},
+        )
+        self.assertTrue(all(record["annotation"]["status"] == "pending" for record in records))
+        reserved = parquet.read_table(self.reserved / "train.parquet").to_pylist()
+        self.assertEqual(len(reserved), 3)
+        self.assertEqual(manifest["reserved"]["videos"], 3)
+        self.assertEqual(manifest["status"], "annotation_pending")
 
 
 if __name__ == "__main__":
