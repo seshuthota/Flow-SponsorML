@@ -2,7 +2,9 @@
   "configuration": {
     "encoder": "jhu-clsp/ettin-encoder-17m",
     "encoder_revision": "987607455c61e7a5bbc85f7758e0512ea6d0ae4c",
-    "exclude_split_directories": [],
+    "exclude_split_directories": [
+      "data/smart_segments/benchmark_reserved"
+    ],
     "hard_negative_categories": [],
     "language_prefixes": [
       "en"
@@ -22,37 +24,38 @@
     "train_fraction": 0.8,
     "validation_fraction": 0.1
   },
-  "elapsed_seconds": 2054.846,
+  "elapsed_seconds": 2072.534,
   "exclusions": {
-    "excluded_channels": 0,
-    "excluded_videos": 0
+    "excluded_channels": 140,
+    "excluded_videos": 140
   },
   "funnel": {
     "non_english": 2124,
+    "not_in_metadata_or_excluded": 140,
     "not_public": 204,
-    "split_test_rows": 24900,
-    "split_train_rows": 213156,
-    "split_validation_rows": 23177,
+    "split_test_rows": 24852,
+    "split_train_rows": 212682,
+    "split_validation_rows": 23123,
     "too_few_cues": 179,
     "too_long": 119,
     "was_live": 583
   },
-  "generated_at": "2026-09-29T20:15:08.505733+00:00",
+  "generated_at": "2026-09-29T20:57:11.219399+00:00",
   "groups": {
-    "accepted_videos": 59609,
-    "channels": 14004,
+    "accepted_videos": 59469,
+    "channels": 13987,
     "component_size_videos": {
-      "max": 1450,
+      "max": 1445,
       "p50": 2,
       "p95": 14,
       "p99": 35
     },
-    "components": 13866,
-    "exact_campaigns": 67046
+    "components": 13850,
+    "exact_campaigns": 66988
   },
   "label_kinds": {
-    "ordinary_negative": 167069,
-    "positive": 94164
+    "ordinary_negative": 166642,
+    "positive": 94015
   },
   "leakage": {
     "channel": {
@@ -73,43 +76,43 @@
   },
   "outputs": {
     "test": {
-      "bytes": 38346904,
-      "campaigns": 6445,
-      "channels": 1362,
+      "bytes": 38281072,
+      "campaigns": 6430,
+      "channels": 1359,
       "label_kinds": {
-        "ordinary_negative": 15994,
-        "positive": 8906
+        "ordinary_negative": 15960,
+        "positive": 8892
       },
       "path": "data/training/smart_segments_windows/test.parquet",
-      "rows": 24900,
-      "sha256": "5967ed4a107528a75fe197ee88e25c1c6fc175aa4d5e597172a4b2625f561cea",
-      "videos": 5768
+      "rows": 24852,
+      "sha256": "cb31940b5ebc1736e4cec3b77e1e92c9cbfc94d03a7886a0305d23dbc1a87915",
+      "videos": 5754
     },
     "train": {
-      "bytes": 327641183,
-      "campaigns": 54615,
-      "channels": 11255,
+      "bytes": 326923039,
+      "campaigns": 54579,
+      "channels": 11242,
       "label_kinds": {
-        "ordinary_negative": 136348,
-        "positive": 76808
+        "ordinary_negative": 135988,
+        "positive": 76694
       },
       "path": "data/training/smart_segments_windows/train.parquet",
-      "rows": 213156,
-      "sha256": "2519f9ba4ba585d017c30f96ab97fe79f919f70115650d778bd4113fdb5b108d",
-      "videos": 48441
+      "rows": 212682,
+      "sha256": "6e343bd627d0eb3f70c7f72370bda6b15ab2614ecda6343c720b0bc08b906e14",
+      "videos": 48326
     },
     "validation": {
-      "bytes": 35659822,
-      "campaigns": 5986,
-      "channels": 1387,
+      "bytes": 35572331,
+      "campaigns": 5979,
+      "channels": 1386,
       "label_kinds": {
-        "ordinary_negative": 14727,
-        "positive": 8450
+        "ordinary_negative": 14694,
+        "positive": 8429
       },
       "path": "data/training/smart_segments_windows/validation.parquet",
-      "rows": 23177,
-      "sha256": "4112de440db6d28229b9324891777fd3e46fa4b991038c3d144775989fd39a73",
-      "videos": 5400
+      "rows": 23123,
+      "sha256": "1a80675eb56649dd32d4daf008e4cbd858869c80dc4c246956e84b65502fe8c2",
+      "videos": 5389
     }
   },
   "schema_version": 1,
