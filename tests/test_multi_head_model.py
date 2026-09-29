@@ -54,7 +54,7 @@ class BuildTokenTargetsTest(unittest.TestCase):
 
 
 class ComputeMetricsTest(unittest.TestCase):
-    def test_per_category_f1_and_macro(self) -> None:
+    def test_reports_positive_token_recall_only(self) -> None:
         import numpy as np
 
         # [batch, sequence, category, label]
@@ -69,9 +69,25 @@ class ComputeMetricsTest(unittest.TestCase):
             type("Prediction", (), {"predictions": predictions, "label_ids": labels})
         )
 
-        self.assertEqual(metrics["sponsor_token_f1"], 1.0)
-        self.assertEqual(metrics["selfpromo_token_f1"], 0.0)
-        self.assertLessEqual(metrics["macro_token_f1"], 1.0)
+        self.assertEqual(metrics["sponsor_positive_token_recall"], 1.0)
+        self.assertEqual(metrics["sponsor_positive_token_count"], 1)
+        self.assertEqual(metrics["selfpromo_positive_token_count"], 0)
+        self.assertEqual(metrics["selfpromo_positive_token_recall"], 0.0)
+        self.assertNotIn("sponsor_token_precision", metrics)
+
+    def test_recall_drops_when_a_positive_token_is_missed(self) -> None:
+        import numpy as np
+
+        predictions = np.zeros((1, 1, 3, 5), dtype=int)
+        predictions[0, 0, 0, BILOU_TO_ID["O"]] = 1
+        labels = np.full((1, 1, 3), IGNORED_LABEL_ID, dtype=int)
+        labels[0, 0, 0] = BILOU_TO_ID["U"]
+
+        metrics = compute_metrics_factory(CATEGORIES)(
+            type("Prediction", (), {"predictions": predictions, "label_ids": labels})
+        )
+
+        self.assertEqual(metrics["sponsor_positive_token_recall"], 0.0)
 
 
 class CollatorTest(unittest.TestCase):

@@ -231,7 +231,15 @@ def build_optimizer(model, *, encoder_learning_rate: float, head_learning_rate: 
 
 
 def compute_metrics_factory(categories: Sequence[str]):
-    """Per-category token P/R/F1, then a macro average across categories."""
+    """Report positive-token recall only.
+
+    UNKNOWN tokens carry no supervision, so no category has negative tokens in
+    the validation split. Token precision and F1 are therefore undefined here:
+    with no possible false positive in the denominator, precision is always 1.0
+    and F1 only measures firing on tokens the model was trained to fire on.
+    Real precision comes from span metrics on the reviewed benchmark, which has
+    confirmed negatives.
+    """
 
     import numpy as np
 
@@ -241,35 +249,19 @@ def compute_metrics_factory(categories: Sequence[str]):
         predictions = np.argmax(prediction.predictions, axis=-1)
         labels = prediction.label_ids
         metrics: dict[str, float] = {}
-        f1_scores: list[float] = []
+        recalls: list[float] = []
         for index, category in enumerate(categories):
-            predicted_positive = predictions[:, :, index] != BILOU_TO_ID["O"]
-            actual_positive = labels[:, :, index] != BILOU_TO_ID["O"]
             valid = labels[:, :, index] != IGNORED_LABEL_ID
-            true_positive = int(np.sum(predicted_positive & actual_positive & valid))
-            false_positive = int(np.sum(predicted_positive & ~actual_positive & valid))
-            false_negative = int(np.sum(~predicted_positive & actual_positive & valid))
-            precision = (
-                true_positive / (true_positive + false_positive)
-                if true_positive + false_positive
-                else 0.0
-            )
-            recall = (
-                true_positive / (true_positive + false_negative)
-                if true_positive + false_negative
-                else 0.0
-            )
-            f1 = (
-                2 * precision * recall / (precision + recall)
-                if precision + recall
-                else 0.0
-            )
-            metrics[f"{category}_token_precision"] = precision
-            metrics[f"{category}_token_recall"] = recall
-            metrics[f"{category}_token_f1"] = f1
-            f1_scores.append(f1)
-        metrics["macro_token_f1"] = (
-            sum(f1_scores) / len(f1_scores) if f1_scores else 0.0
+            positive = labels[:, :, index] != BILOU_TO_ID["O"]
+            predicted_positive = predictions[:, :, index] != BILOU_TO_ID["O"]
+            total = int(np.sum(valid & positive))
+            recalled = int(np.sum(valid & positive & predicted_positive))
+            recall = recalled / total if total else 0.0
+            metrics[f"{category}_positive_token_recall"] = recall
+            metrics[f"{category}_positive_token_count"] = total
+            recalls.append(recall)
+        metrics["macro_positive_token_recall"] = (
+            sum(recalls) / len(recalls) if recalls else 0.0
         )
         return metrics
 

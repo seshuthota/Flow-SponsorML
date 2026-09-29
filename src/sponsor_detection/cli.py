@@ -546,6 +546,7 @@ def _build_parser() -> argparse.ArgumentParser:
         default=Path("config/train_smart_segments.toml"),
     )
     smart_train_parser.add_argument("--smoke-test", action="store_true")
+    smart_train_parser.add_argument("--resume-from-checkpoint", type=Path, default=None)
     train_parser.add_argument(
         "--resume-from-checkpoint",
         type=Path,
@@ -790,7 +791,9 @@ def main(arguments: Sequence[str] | None = None) -> int:
         from sponsor_detection.train import train_multi_head_from_config
 
         report = train_multi_head_from_config(
-            options.config, smoke_test=options.smoke_test
+            options.config,
+            smoke_test=options.smoke_test,
+            resume_from_checkpoint=options.resume_from_checkpoint,
         )
         print(
             json.dumps(
@@ -798,11 +801,13 @@ def main(arguments: Sequence[str] | None = None) -> int:
                     "model": report["model"],
                     "categories": report["categories"],
                     "smoke_test": report["smoke_test"],
-                    "validation": report["validation_metrics"].get(
-                        "eval_macro_token_f1"
-                    ),
-                    "test": (
-                        report["test_metrics"].get("test_macro_token_f1")
+                    "resumed_from_checkpoint": report["resumed_from_checkpoint"],
+                    "validation_loss": report["validation_metrics"].get("eval_loss"),
+                    "validation_positive_token_recall": report[
+                        "validation_metrics"
+                    ].get("eval_macro_positive_token_recall"),
+                    "test_loss": (
+                        report["test_metrics"].get("test_loss")
                         if report["test_metrics"]
                         else None
                     ),

@@ -311,6 +311,7 @@ def train_multi_head_from_config(
     path: Path,
     *,
     smoke_test: bool = False,
+    resume_from_checkpoint: Path | None = None,
 ) -> dict[str, object]:
     from datasets import load_dataset
     from transformers import AutoTokenizer, Trainer, TrainingArguments, set_seed
@@ -384,8 +385,8 @@ def train_multi_head_from_config(
         logging_steps=1 if smoke_test else int(training["logging_steps"]),
         save_total_limit=int(training.get("save_total_limit", 2)),
         load_best_model_at_end=not smoke_test,
-        metric_for_best_model="macro_token_f1",
-        greater_is_better=True,
+        metric_for_best_model="eval_loss",
+        greater_is_better=False,
         report_to=[],
         seed=seed,
         data_seed=seed,
@@ -413,7 +414,11 @@ def train_multi_head_from_config(
             None,
         ),
     )
-    train_result = trainer.train()
+    train_result = trainer.train(
+        resume_from_checkpoint=(
+            str(resume_from_checkpoint) if resume_from_checkpoint else None
+        )
+    )
     evaluation = trainer.evaluate()
     test_evaluation = (
         None
@@ -429,6 +434,9 @@ def train_multi_head_from_config(
         "encoder": encoder_name,
         "revision": revision,
         "initial_checkpoint": str(initial_checkpoint) if initial_checkpoint else None,
+        "resumed_from_checkpoint": (
+            str(resume_from_checkpoint) if resume_from_checkpoint else None
+        ),
         "dataset_manifest_sha256": sha256_file(
             Path(configuration["dataset"]["manifest_path"])
         ),
