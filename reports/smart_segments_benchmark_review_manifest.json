@@ -1,0 +1,52 @@
+{
+  "configuration": {
+    "categories": [
+      "sponsor",
+      "selfpromo",
+      "interaction"
+    ],
+    "language_prefixes": [
+      "en"
+    ],
+    "maximum_video_duration_seconds": 14400,
+    "minimum_cues": 25,
+    "seed": "flow-smart-segments-benchmark-v1",
+    "targets": {
+      "content_negative": 40,
+      "interaction": 30,
+      "selfpromo": 30,
+      "sponsor": 40
+    }
+  },
+  "counts": {
+    "by_stratum": {
+      "content_negative": 40,
+      "interaction": 30,
+      "selfpromo": 30,
+      "sponsor": 40
+    },
+    "candidates": 59398,
+    "excluded_channels": 0,
+    "selected": 140
+  },
+  "elapsed_seconds": 81.893,
+  "generated_at": "2026-09-29T20:22:17.720833+00:00",
+  "output": {
+    "bytes": 10727503,
+    "path": "data/smart_segments/benchmark_review.jsonl",
+    "sha256": "1ebda84dcc3f77b17c12a0671436adfbb8025837c34d4a3371ebd8592c4bbd4a"
+  },
+  "reserved": {
+    "path": "data/smart_segments/benchmark_reserved/train.parquet",
+    "sha256": "2c835a5fcc107601e32f4f19d631fa97f97240425bae3f52c49727d7aaa3f20f",
+    "videos": 140
+  },
+  "sources": {
+    "annotations_path": "data/smart_segments/smart_segment_annotations.parquet",
+    "annotations_sha256": "c6b4e23e71b1f8686b97caacb9cc1f1be65068e3c186b76f12c4a9acdcdf238e",
+    "metadata_directory": "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/video_metadata",
+    "subtitles_directory": "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/subtitles"
+  },
+  "status": "annotation_pending",
+  "version": "smart-segment-benchmark/1"
+}
