@@ -1,0 +1,60 @@
+{
+  "categories": [
+    "sponsor",
+    "selfpromo",
+    "interaction"
+  ],
+  "checkpoint": {
+    "model_bytes": 67209860,
+    "model_sha256": "5c5e673fad20bcd048a86d3d94a478d8e5a3f9d578d9a6086cc6bac7d410a7e5",
+    "tokenizer_sha256": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30"
+  },
+  "dataset_manifest_sha256": "e4c7eca571db3357b24290ea713166c97df57b5ecf94cd7bc692e195e9cd2416",
+  "dataset_rows": {
+    "test": 24852,
+    "train": 212682,
+    "validation": 23123
+  },
+  "encoder": "jhu-clsp/ettin-encoder-17m",
+  "initial_checkpoint": "../Flow/ml/sponsor_detection/checkpoints/ettin_17m_sponsor_combined",
+  "limitations": [
+    "In-training metrics are positive-token recall only: UNKNOWN tokens carry no supervision, so token precision is undefined and no negative evidence exists in the split.",
+    "Release gates (sponsor non-inferiority, per-category precision, automatic-action eligibility) remain unproven until the reviewed benchmark is frozen."
+  ],
+  "model": "smart_segment_multi_head",
+  "resumed_from_checkpoint": "checkpoints/smart_segments_ettin_17m/checkpoint-6000",
+  "revision": "987607455c61e7a5bbc85f7758e0512ea6d0ae4c",
+  "test": {
+    "test_interaction_positive_token_count": 47416,
+    "test_interaction_positive_token_recall": 1.0,
+    "test_loss": 0.03425564616918564,
+    "test_macro_positive_token_recall": 1.0,
+    "test_runtime": 166.2149,
+    "test_samples_per_second": 149.517,
+    "test_selfpromo_positive_token_count": 164860,
+    "test_selfpromo_positive_token_recall": 1.0,
+    "test_sponsor_positive_token_count": 1629070,
+    "test_sponsor_positive_token_recall": 1.0,
+    "test_steps_per_second": 9.349
+  },
+  "training": {
+    "epoch": 2.0,
+    "train_loss": 0.0930606894193959,
+    "train_runtime": 3551.8331,
+    "train_samples_per_second": 119.759,
+    "train_steps_per_second": 3.743
+  },
+  "validation": {
+    "eval_interaction_positive_token_count": 51174,
+    "eval_interaction_positive_token_recall": 1.0,
+    "eval_loss": 0.03307495638728142,
+    "eval_macro_positive_token_recall": 1.0,
+    "eval_runtime": 146.6888,
+    "eval_samples_per_second": 157.633,
+    "eval_selfpromo_positive_token_count": 191445,
+    "eval_selfpromo_positive_token_recall": 1.0,
+    "eval_sponsor_positive_token_count": 1581064,
+    "eval_sponsor_positive_token_recall": 1.0,
+    "eval_steps_per_second": 9.858
+  }
+}
