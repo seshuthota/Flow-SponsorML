@@ -656,6 +656,15 @@ def _build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path("config/smart_segment_annotations.toml"),
     )
+    gates_parser = smart_segments_commands.add_parser(
+        "freeze-gates",
+        help="Commit the release gates before inspecting candidate results",
+    )
+    gates_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("config/smart_segments_gates.toml"),
+    )
     return parser
 
 
@@ -1197,6 +1206,31 @@ def main(arguments: Sequence[str] | None = None) -> int:
                     "audited_rows": report["counts"]["audited_rows"],
                     "eligible_rows": report["counts"]["eligible_rows"],
                     "by_category": report["counts"]["by_category"],
+                },
+                indent=2,
+                sort_keys=True,
+            )
+        )
+        return 0
+    if (
+        options.command == "smart-segments"
+        and options.smart_segments_command == "freeze-gates"
+    ):
+        from sponsor_detection.smart_segment_gates import freeze_gate_contract
+
+        report = freeze_gate_contract(options.config)
+        print(
+            json.dumps(
+                {
+                    "name": report["name"],
+                    "version": report["version"],
+                    "baseline_model_sha256": report["sponsor_baseline"][
+                        "model_sha256"
+                    ],
+                    "baseline_span_f1_iou_0.5": report["sponsor_baseline"][
+                        "metrics"
+                    ]["span_f1_iou_0.5"],
+                    "automatic_actions": sorted(report["automatic_action"]),
                 },
                 indent=2,
                 sort_keys=True,

@@ -1,0 +1,60 @@
+[contract]
+name = "smart-segments-v1"
+output_path = "reports/smart_segments_gate_contract.json"
+release_manifest = "reports/ettin_17m_sponsor_combined_rc1_manifest.json"
+# Total reviewed video seconds of the frozen sponsor benchmark. Left unset until
+# the benchmark manifest records whole-video durations, so per-hour metrics stay
+# null rather than guessed.
+# reviewed_seconds = 0
+
+# Permitted candidate-minus-baseline deltas. A candidate fails the gate when a
+# metric is worse than its delta, or when the lower confidence bound of a
+# precision metric is below the baseline point estimate.
+[sponsor_non_inferiority]
+confidence_interval_method = "wilson_95"
+precision_delta = -0.02
+recall_delta = -0.02
+span_f1_iou_0_5_delta = -0.02
+false_positive_seconds_per_hour_delta = 5.0
+missed_sponsor_seconds_per_hour_delta = 5.0
+require_lower_ci_bound_non_inferior = true
+
+# Minimum reviewed evidence before any per-category claim is even attempted.
+[category_gates]
+minimum_reviewed_hours = 5.0
+minimum_positive_spans = 50
+
+# Device matrix and limits a performance claim is measured against. Percentile
+# statistics and warm/cold conditions are part of the contract, not optional
+# reporting.
+[performance]
+device_tiers = ["arm64-v8a-mid", "arm64-v8a-high"]
+percentile = "p95"
+runtime = "onnxruntime-android-1.29.0"
+warm_and_cold_sessions = true
+maximum_latency_increase_ratio = 0.10
+maximum_memory_increase_ratio = 0.10
+maximum_model_size_increase_ratio = 0.10
+
+# Automatic actions are opt-in per category and require reviewed precision.
+# Sponsor keeps its existing behavior; the new categories start disabled.
+[automatic_action.sponsor]
+enabled = true
+minimum_reviewed_hours = 20.0
+minimum_positive_spans = 200
+minimum_precision_lower_ci = 0.90
+maximum_false_positive_seconds_per_hour = 10.0
+
+[automatic_action.selfpromo]
+enabled = false
+minimum_reviewed_hours = 20.0
+minimum_positive_spans = 200
+minimum_precision_lower_ci = 0.95
+maximum_false_positive_seconds_per_hour = 5.0
+
+[automatic_action.interaction]
+enabled = false
+minimum_reviewed_hours = 20.0
+minimum_positive_spans = 200
+minimum_precision_lower_ci = 0.95
+maximum_false_positive_seconds_per_hour = 5.0

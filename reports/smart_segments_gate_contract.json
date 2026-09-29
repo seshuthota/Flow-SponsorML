@@ -1,0 +1,114 @@
+{
+  "automatic_action": {
+    "interaction": {
+      "enabled": false,
+      "maximum_false_positive_seconds_per_hour": 5.0,
+      "minimum_positive_spans": 200,
+      "minimum_precision_lower_ci": 0.95,
+      "minimum_reviewed_hours": 20.0
+    },
+    "selfpromo": {
+      "enabled": false,
+      "maximum_false_positive_seconds_per_hour": 5.0,
+      "minimum_positive_spans": 200,
+      "minimum_precision_lower_ci": 0.95,
+      "minimum_reviewed_hours": 20.0
+    },
+    "sponsor": {
+      "enabled": true,
+      "maximum_false_positive_seconds_per_hour": 10.0,
+      "minimum_positive_spans": 200,
+      "minimum_precision_lower_ci": 0.9,
+      "minimum_reviewed_hours": 20.0
+    }
+  },
+  "category_gates": {
+    "minimum_positive_spans": 50,
+    "minimum_reviewed_hours": 5.0
+  },
+  "config_path": "config/smart_segments_gates.toml",
+  "config_sha256": "4b6a0288dbd8f3da2f4912dced17f9e1641fe8c71d7f5c15968de1d810b1d263",
+  "contract": "smart_segment_gate_contract",
+  "generated_at": "2026-09-29T19:43:21.600664+00:00",
+  "name": "smart-segments-v1",
+  "performance": {
+    "device_tiers": [
+      "arm64-v8a-mid",
+      "arm64-v8a-high"
+    ],
+    "maximum_latency_increase_ratio": 0.1,
+    "maximum_memory_increase_ratio": 0.1,
+    "maximum_model_size_increase_ratio": 0.1,
+    "percentile": "p95",
+    "runtime": "onnxruntime-android-1.29.0",
+    "warm_and_cold_sessions": true
+  },
+  "sponsor_baseline": {
+    "contract": "sponsor_baseline",
+    "decoder_confidence_threshold": 0.7,
+    "decoder_config_sha256": "1b688cc632e0a3c23ed4c42d458d60f55eb99f2e3cb2aa67d8935ec04793d7ab",
+    "generated_at": "2026-09-29T19:43:21.600463+00:00",
+    "metrics": {
+      "boundary_error_end_median_ms": 2625,
+      "boundary_error_start_median_ms": 1032,
+      "confidence_intervals": {
+        "method": "wilson_95",
+        "span_precision_iou_0.5": {
+          "lower": 0.893959,
+          "successes": 5775,
+          "total": 6406,
+          "upper": 0.908557
+        },
+        "span_recall_iou_0.5": {
+          "lower": 0.659332,
+          "successes": 5775,
+          "total": 8628,
+          "upper": 0.679182
+        },
+        "window_precision": {
+          "lower": 0.936037,
+          "successes": 5952,
+          "total": 6318,
+          "upper": 0.947567
+        },
+        "window_recall": {
+          "lower": 0.708275,
+          "successes": 5952,
+          "total": 8289,
+          "upper": 0.727644
+        }
+      },
+      "false_positive_seconds": 98.554,
+      "false_positive_seconds_per_hour": null,
+      "missed_sponsor_seconds": 106.311,
+      "missed_sponsor_seconds_per_hour": null,
+      "reviewed_seconds": null,
+      "reviewed_videos": 39,
+      "span_f1_iou_0.5": 0.7682586138087002,
+      "span_false_negative": 2853,
+      "span_false_positive": 631,
+      "span_precision_iou_0.5": 0.9014985950671246,
+      "span_recall_iou_0.5": 0.6693324061196105,
+      "span_true_positive": 5775,
+      "window_false_positive": 366,
+      "window_precision": 0.9420702754036088,
+      "window_recall": 0.7180600796235975,
+      "window_true_positive": 5952
+    },
+    "model_sha256": "81184081034207ff887cde4807916d145f98708034ae325229ebaa17e54ca102",
+    "release_manifest_sha256": "d605b20516f8f9336b5091f1d4a4c07b1b7583073cc4ae31b2aee34125cf60c9",
+    "release_name": "ettin-17m-sponsor-combined-rc1",
+    "tokenizer_sha256": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30",
+    "version": "sponsor-baseline-contract/1"
+  },
+  "sponsor_non_inferiority": {
+    "confidence_interval_method": "wilson_95",
+    "false_positive_seconds_per_hour_delta": 5.0,
+    "missed_sponsor_seconds_per_hour_delta": 5.0,
+    "precision_delta": -0.02,
+    "recall_delta": -0.02,
+    "require_lower_ci_bound_non_inferior": true,
+    "span_f1_iou_0_5_delta": -0.02
+  },
+  "version": "smart-segment-gate-contract/1"
+}
