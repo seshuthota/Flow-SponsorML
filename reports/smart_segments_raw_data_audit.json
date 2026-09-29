@@ -1,0 +1,440 @@
+{
+  "audit": "smart_segments_raw_data_availability",
+  "audit_code_version": "smart-segments-audit/1",
+  "caption_coverage": {
+    "auto_caption_available": false,
+    "auto_caption_note": "The ScriptSmith snapshot records a language per video but no manual/auto caption provenance, so the split cannot be reported.",
+    "channel_fraction": 0.390368,
+    "english_fraction_of_scriptsmith": 0.966188,
+    "metadata_fraction": 0.390368
+  },
+  "configuration": {
+    "categories": [
+      "sponsor",
+      "selfpromo",
+      "interaction",
+      "preview",
+      "hook",
+      "intro",
+      "outro",
+      "music_offtopic",
+      "filler"
+    ],
+    "category_name_map": {
+      "FILLER": "filler",
+      "HOOK": "hook",
+      "INTERACTION": "interaction",
+      "INTRO": "intro",
+      "MUSIC_OFFTOPIC": "music_offtopic",
+      "OUTRO": "outro",
+      "PREVIEW_RECAP": "preview",
+      "SELF_PROMO": "selfpromo",
+      "SPONSOR": "sponsor"
+    },
+    "compute_sha256": true,
+    "eligibility_policy": {
+      "action_type": "skip",
+      "category": "sponsor",
+      "duration_tolerance_ratio": 0.01,
+      "duration_tolerance_seconds": 1.0,
+      "exclude_hidden": true,
+      "exclude_shadow_hidden": true,
+      "minimum_votes": 0,
+      "service": "YouTube"
+    },
+    "eligibility_policy_version": "eligibility-policy/1",
+    "language_prefixes": [
+      "en"
+    ],
+    "maximum_videos": 0,
+    "scriptsmith_revision": "scriptsmith-sponsorblock-2024"
+  },
+  "elapsed_seconds": 77.277,
+  "generated_at": "2026-09-29T17:40:05.792197+00:00",
+  "mirror_join": {
+    "category_totals": {
+      "chapter": 384817,
+      "exclusive_access": 37895,
+      "filler": 2992290,
+      "hook": 84740,
+      "interaction": 1707623,
+      "intro": 3720624,
+      "moreCategories": 4,
+      "music_offtopic": 552951,
+      "outro": 2879758,
+      "poi_highlight": 1197104,
+      "preview": 729943,
+      "selfpromo": 2150895,
+      "sponsor": 5222102
+    },
+    "counters": {
+      "audited_rows": 467191,
+      "category_not_audited": 19917,
+      "eligible_rows": 391230,
+      "ineligible_rows": 75961,
+      "outside_transcript_set": 21173638,
+      "rows": 21660746
+    },
+    "ineligible_by_category": {
+      "filler": {
+        "below_minimum_votes": 2575,
+        "duration_mismatch": 4,
+        "hidden": 2586,
+        "shadow_hidden": 1062,
+        "wrong_action_type": 98
+      },
+      "hook": {
+        "below_minimum_votes": 5,
+        "hidden": 2,
+        "shadow_hidden": 10
+      },
+      "interaction": {
+        "below_minimum_votes": 2720,
+        "duration_mismatch": 7,
+        "hidden": 1153,
+        "shadow_hidden": 1359,
+        "wrong_action_type": 342
+      },
+      "intro": {
+        "below_minimum_votes": 4322,
+        "duration_mismatch": 18,
+        "hidden": 1259,
+        "invalid_interval": 1,
+        "shadow_hidden": 1743,
+        "wrong_action_type": 53
+      },
+      "music_offtopic": {
+        "below_minimum_votes": 288,
+        "hidden": 43,
+        "shadow_hidden": 59
+      },
+      "outro": {
+        "below_minimum_votes": 1920,
+        "duration_mismatch": 20,
+        "hidden": 1043,
+        "shadow_hidden": 1338,
+        "wrong_action_type": 31
+      },
+      "preview": {
+        "below_minimum_votes": 1168,
+        "hidden": 482,
+        "shadow_hidden": 768,
+        "wrong_action_type": 4
+      },
+      "selfpromo": {
+        "below_minimum_votes": 5670,
+        "duration_mismatch": 17,
+        "hidden": 1993,
+        "invalid_interval": 255,
+        "shadow_hidden": 1553,
+        "wrong_action_type": 868
+      },
+      "sponsor": {
+        "below_minimum_votes": 25255,
+        "duration_mismatch": 55,
+        "hidden": 11828,
+        "invalid_interval": 1249,
+        "shadow_hidden": 4915,
+        "wrong_action_type": 1859
+      }
+    }
+  },
+  "next_audit": "run the trainability audit on this report's eligible records",
+  "overlap": {
+    "cross_category_overlapping_pairs": {
+      "filler+hook": 8,
+      "filler+interaction": 249,
+      "filler+intro": 424,
+      "filler+music_offtopic": 11,
+      "filler+outro": 166,
+      "filler+preview": 96,
+      "filler+selfpromo": 404,
+      "filler+sponsor": 1003,
+      "hook+interaction": 29,
+      "hook+intro": 24,
+      "hook+outro": 7,
+      "hook+preview": 13,
+      "hook+selfpromo": 11,
+      "hook+sponsor": 89,
+      "interaction+intro": 901,
+      "interaction+music_offtopic": 39,
+      "interaction+outro": 2323,
+      "interaction+preview": 224,
+      "interaction+selfpromo": 3698,
+      "interaction+sponsor": 2339,
+      "intro+music_offtopic": 91,
+      "intro+outro": 117,
+      "intro+preview": 1486,
+      "intro+selfpromo": 2066,
+      "intro+sponsor": 9267,
+      "music_offtopic+outro": 167,
+      "music_offtopic+preview": 4,
+      "music_offtopic+selfpromo": 140,
+      "music_offtopic+sponsor": 220,
+      "outro+preview": 49,
+      "outro+selfpromo": 2492,
+      "outro+sponsor": 3256,
+      "preview+selfpromo": 326,
+      "preview+sponsor": 1486,
+      "selfpromo+sponsor": 9614
+    },
+    "overlapping_videos": 68672
+  },
+  "schema_version": 1,
+  "sources": {
+    "metadata": {
+      "part-00000.parquet": {
+        "bytes": 50397259,
+        "path": "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/video_metadata/part-00000.parquet",
+        "sha256": "2a41cfdb37117c22eab2ff5d3ab68d01894c919425e0ce4f6444eb73e3560655"
+      },
+      "part-00001.parquet": {
+        "bytes": 50140454,
+        "path": "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/video_metadata/part-00001.parquet",
+        "sha256": "1d608da20a70c90bd9d3e08e5f8ce59314ab8fe46a3d05c9e51f7a4ee7a113cd"
+      },
+      "part-00002.parquet": {
+        "bytes": 50509840,
+        "path": "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/video_metadata/part-00002.parquet",
+        "sha256": "a83cb665668ed3f40a855188c8e90b305bdb12ec5ba90798f1b2ea36086a31eb"
+      },
+      "part-00003.parquet": {
+        "bytes": 4680883,
+        "path": "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/video_metadata/part-00003.parquet",
+        "sha256": "f1e4b32be2a1b29fc08f2c7042009275aad506266f18201b89f1626289556c19"
+      }
+    },
+    "mirror": {
+      "bytes": 6812995962,
+      "mirror_last_update": "2026-08-29_18-50",
+      "path": "../Flow/sb-mirror/sponsorTimes.csv",
+      "sha256": "68a425d9a64f68c9d8369c07fa88d97c2006723ab3dfe618c46578555cda58e2"
+    },
+    "subtitles": {
+      "part-00000.parquet": {
+        "bytes": 958251580,
+        "path": "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/subtitles/part-00000.parquet",
+        "sha256": "4013960a81df2f28aed66d39a4179a3fd9862fc703cbf54cda30243cf41379db"
+      },
+      "part-00001.parquet": {
+        "bytes": 964618681,
+        "path": "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/subtitles/part-00001.parquet",
+        "sha256": "284116274931d21d6ca3dd4e60939767e0cb4fc3447261d3a2ca0a0cf1a6956a"
+      },
+      "part-00002.parquet": {
+        "bytes": 89624197,
+        "path": "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/subtitles/part-00002.parquet",
+        "sha256": "b11716269e3736c6f343ea72d5fec19e2c9b846b628b230427b6cec47e744a6c"
+      }
+    },
+    "xenova": {
+      "path": "../Flow/ml/sponsor_detection/data/external/xenova_sponsorblock_768",
+      "sha256": "9ff225437a0e05e1faf0ae80074399601a0084fb71e82d6b7b25575726ef2b61"
+    }
+  },
+  "table": {
+    "filler": {
+      "positive_duration_hours": 98.794838,
+      "positive_duration_seconds": 355661.417,
+      "segment_seconds": {
+        "count": 11346,
+        "max": 3058.0,
+        "mean": 31.3469,
+        "median": 10.3185,
+        "p95": 115.419
+      },
+      "segments": 11346,
+      "segments_per_video": {
+        "count": 4841,
+        "max": 93.0,
+        "mean": 2.3437,
+        "median": 1.0,
+        "p95": 8.0
+      },
+      "transcript_videos": 4841,
+      "unique_channels": 1324
+    },
+    "hook": {
+      "positive_duration_hours": 1.738766,
+      "positive_duration_seconds": 6259.557,
+      "segment_seconds": {
+        "count": 183,
+        "max": 261.135,
+        "mean": 34.2052,
+        "median": 17.838,
+        "p95": 135.52
+      },
+      "segments": 183,
+      "segments_per_video": {
+        "count": 168,
+        "max": 3.0,
+        "mean": 1.0893,
+        "median": 1.0,
+        "p95": 2.0
+      },
+      "transcript_videos": 168,
+      "unique_channels": 82
+    },
+    "interaction": {
+      "positive_duration_hours": 183.173197,
+      "positive_duration_seconds": 659423.509,
+      "segment_seconds": {
+        "count": 46600,
+        "max": 4186.154,
+        "mean": 14.1507,
+        "median": 10.371,
+        "p95": 36.987
+      },
+      "segments": 46600,
+      "segments_per_video": {
+        "count": 37518,
+        "max": 90.0,
+        "mean": 1.2421,
+        "median": 1.0,
+        "p95": 2.0
+      },
+      "transcript_videos": 37518,
+      "unique_channels": 2832
+    },
+    "intro": {
+      "positive_duration_hours": 187.598734,
+      "positive_duration_seconds": 675355.442,
+      "segment_seconds": {
+        "count": 37308,
+        "max": 1650.804,
+        "mean": 18.1022,
+        "median": 7.9705,
+        "p95": 51.612
+      },
+      "segments": 37308,
+      "segments_per_video": {
+        "count": 30800,
+        "max": 131.0,
+        "mean": 1.2113,
+        "median": 1.0,
+        "p95": 2.0
+      },
+      "transcript_videos": 30800,
+      "unique_channels": 2667
+    },
+    "music_offtopic": {
+      "positive_duration_hours": 9.733949,
+      "positive_duration_seconds": 35042.218,
+      "segment_seconds": {
+        "count": 722,
+        "max": 1904.528,
+        "mean": 48.5349,
+        "median": 25.0575,
+        "p95": 138.05
+      },
+      "segments": 722,
+      "segments_per_video": {
+        "count": 406,
+        "max": 17.0,
+        "mean": 1.7783,
+        "median": 1.0,
+        "p95": 4.0
+      },
+      "transcript_videos": 406,
+      "unique_channels": 158
+    },
+    "outro": {
+      "positive_duration_hours": 219.053621,
+      "positive_duration_seconds": 788593.037,
+      "segment_seconds": {
+        "count": 34319,
+        "max": 1015.779,
+        "mean": 22.9783,
+        "median": 18.179,
+        "p95": 60.222
+      },
+      "segments": 34319,
+      "segments_per_video": {
+        "count": 32746,
+        "max": 38.0,
+        "mean": 1.048,
+        "median": 1.0,
+        "p95": 1.0
+      },
+      "transcript_videos": 32746,
+      "unique_channels": 2930
+    },
+    "preview": {
+      "positive_duration_hours": 95.851088,
+      "positive_duration_seconds": 345063.918,
+      "segment_seconds": {
+        "count": 10358,
+        "max": 895.0,
+        "mean": 33.3138,
+        "median": 20.6335,
+        "p95": 98.503
+      },
+      "segments": 10358,
+      "segments_per_video": {
+        "count": 9197,
+        "max": 17.0,
+        "mean": 1.1262,
+        "median": 1.0,
+        "p95": 2.0
+      },
+      "transcript_videos": 9197,
+      "unique_channels": 1826
+    },
+    "selfpromo": {
+      "positive_duration_hours": 528.1304,
+      "positive_duration_seconds": 1901269.439,
+      "segment_seconds": {
+        "count": 52989,
+        "max": 2806.757,
+        "mean": 35.8805,
+        "median": 23.0,
+        "p95": 104.636
+      },
+      "segments": 52989,
+      "segments_per_video": {
+        "count": 36992,
+        "max": 134.0,
+        "mean": 1.4324,
+        "median": 1.0,
+        "p95": 3.0
+      },
+      "transcript_videos": 36992,
+      "unique_channels": 3742
+    },
+    "sponsor": {
+      "positive_duration_hours": 3524.630575,
+      "positive_duration_seconds": 12688670.07,
+      "segment_seconds": {
+        "count": 197405,
+        "max": 2389.417,
+        "mean": 64.2773,
+        "median": 60.079,
+        "p95": 147.845
+      },
+      "segments": 197405,
+      "segments_per_video": {
+        "count": 116407,
+        "max": 128.0,
+        "mean": 1.6958,
+        "median": 1.0,
+        "p95": 4.0
+      },
+      "transcript_videos": 116407,
+      "unique_channels": 13576
+    }
+  },
+  "totals": {
+    "english_scriptsmith_videos": 60694,
+    "english_videos_with_segments": 57750,
+    "scriptsmith_transcript_videos": 62818,
+    "transcript_videos": 161002,
+    "transcript_videos_in_both_sources": 35,
+    "transcript_videos_with_channel": 62850,
+    "transcript_videos_with_metadata": 62850,
+    "unique_channels_with_segments": 13915,
+    "videos_with_any_audited_segment": 156490,
+    "videos_with_multiple_categories": 68672,
+    "xenova_transcript_videos": 98219
+  },
+  "transcript_reconstruction_version": "reconstruct_caption_lines/1"
+}
