@@ -1,0 +1,125 @@
+{
+  "configuration": {
+    "encoder": "jhu-clsp/ettin-encoder-17m",
+    "encoder_revision": "987607455c61e7a5bbc85f7758e0512ea6d0ae4c",
+    "exclude_split_directories": [],
+    "hard_negative_categories": [],
+    "language_prefixes": [
+      "en"
+    ],
+    "max_length": 1024,
+    "maximum_video_duration_seconds": 14400,
+    "minimum_cues": 10,
+    "ordinary_negative_windows_per_video": 4,
+    "overlap_tokens": 128,
+    "positive_categories": [
+      "interaction",
+      "selfpromo",
+      "sponsor"
+    ],
+    "seed": "flow-smart-segments-v1",
+    "test_fraction": 0.1,
+    "train_fraction": 0.8,
+    "validation_fraction": 0.1
+  },
+  "elapsed_seconds": 2054.846,
+  "exclusions": {
+    "excluded_channels": 0,
+    "excluded_videos": 0
+  },
+  "funnel": {
+    "non_english": 2124,
+    "not_public": 204,
+    "split_test_rows": 24900,
+    "split_train_rows": 213156,
+    "split_validation_rows": 23177,
+    "too_few_cues": 179,
+    "too_long": 119,
+    "was_live": 583
+  },
+  "generated_at": "2026-09-29T20:15:08.505733+00:00",
+  "groups": {
+    "accepted_videos": 59609,
+    "channels": 14004,
+    "component_size_videos": {
+      "max": 1450,
+      "p50": 2,
+      "p95": 14,
+      "p99": 35
+    },
+    "components": 13866,
+    "exact_campaigns": 67046
+  },
+  "label_kinds": {
+    "ordinary_negative": 167069,
+    "positive": 94164
+  },
+  "leakage": {
+    "channel": {
+      "train_test": 0,
+      "train_validation": 0,
+      "validation_test": 0
+    },
+    "exact_campaign": {
+      "train_test": 0,
+      "train_validation": 0,
+      "validation_test": 0
+    },
+    "video": {
+      "train_test": 0,
+      "train_validation": 0,
+      "validation_test": 0
+    }
+  },
+  "outputs": {
+    "test": {
+      "bytes": 38346904,
+      "campaigns": 6445,
+      "channels": 1362,
+      "label_kinds": {
+        "ordinary_negative": 15994,
+        "positive": 8906
+      },
+      "path": "data/training/smart_segments_windows/test.parquet",
+      "rows": 24900,
+      "sha256": "5967ed4a107528a75fe197ee88e25c1c6fc175aa4d5e597172a4b2625f561cea",
+      "videos": 5768
+    },
+    "train": {
+      "bytes": 327641183,
+      "campaigns": 54615,
+      "channels": 11255,
+      "label_kinds": {
+        "ordinary_negative": 136348,
+        "positive": 76808
+      },
+      "path": "data/training/smart_segments_windows/train.parquet",
+      "rows": 213156,
+      "sha256": "2519f9ba4ba585d017c30f96ab97fe79f919f70115650d778bd4113fdb5b108d",
+      "videos": 48441
+    },
+    "validation": {
+      "bytes": 35659822,
+      "campaigns": 5986,
+      "channels": 1387,
+      "label_kinds": {
+        "ordinary_negative": 14727,
+        "positive": 8450
+      },
+      "path": "data/training/smart_segments_windows/validation.parquet",
+      "rows": 23177,
+      "sha256": "4112de440db6d28229b9324891777fd3e46fa4b991038c3d144775989fd39a73",
+      "videos": 5400
+    }
+  },
+  "schema_version": 1,
+  "sources": {
+    "annotations_path": "data/smart_segments/smart_segment_annotations.parquet",
+    "annotations_sha256": "c6b4e23e71b1f8686b97caacb9cc1f1be65068e3c186b76f12c4a9acdcdf238e",
+    "metadata_directory": "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/video_metadata",
+    "mirror_path": "../Flow/sb-mirror/sponsorTimes.csv",
+    "provenance_path": "reports/scriptsmith_dataset_provenance.json",
+    "provenance_sha256": "6bacf7bfc1bfd746a8db3bc607aedfaf3d6236d246357911e0d2a21eb57e5def",
+    "subtitles_directory": "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/subtitles"
+  }
+}
