@@ -739,6 +739,15 @@ def _build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path("config/smart_segments_benchmark.toml"),
     )
+    evaluate_videos_parser = smart_segments_commands.add_parser(
+        "evaluate-videos",
+        help="Run the model on held-out videos and report span metrics",
+    )
+    evaluate_videos_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("config/evaluate_smart_segments_videos.toml"),
+    )
     return parser
 
 
@@ -801,6 +810,23 @@ def main(arguments: Sequence[str] | None = None) -> int:
 
         report = export_multi_head_from_config(options.config)
         print(json.dumps(report, indent=2, sort_keys=True))
+        return 0
+    if (
+        options.command == "smart-segments"
+        and options.smart_segments_command == "evaluate-videos"
+    ):
+        from sponsor_detection.smart_segment_video_evaluation import (
+            evaluate_videos_from_config,
+        )
+
+        report = evaluate_videos_from_config(options.config)
+        print(
+            json.dumps(
+                {"dataset": report["dataset"], "evaluation": report["evaluation"]},
+                indent=2,
+                sort_keys=True,
+            )
+        )
         return 0
     if options.command == "train-smart-segments":
         from sponsor_detection.train import train_multi_head_from_config

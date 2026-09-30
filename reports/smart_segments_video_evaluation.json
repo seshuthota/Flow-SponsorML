@@ -1,0 +1,317 @@
+{
+  "bundle_directory": "artifacts/smart_segments",
+  "categories": [
+    "sponsor",
+    "selfpromo",
+    "interaction"
+  ],
+  "dataset": {
+    "annotations_sha256": "c6b4e23e71b1f8686b97caacb9cc1f1be65068e3c186b76f12c4a9acdcdf238e",
+    "inference_seconds": 72.94,
+    "review_sha256": "1ebda84dcc3f77b17c12a0671436adfbb8025837c34d4a3371ebd8592c4bbd4a",
+    "videos_per_second": 1.9194,
+    "videos_processed": 140,
+    "videos_requested": 140
+  },
+  "evaluation": {
+    "interaction": {
+      "span_metrics": {
+        "iou_0.3": {
+          "f1": 0.007874,
+          "false_negative": 48,
+          "false_positive": 204,
+          "precision": 0.004878,
+          "precision_ci_wilson_95": {
+            "lower": 0.000862,
+            "successes": 1,
+            "total": 205,
+            "upper": 0.027109
+          },
+          "recall": 0.020408,
+          "recall_ci_wilson_95": {
+            "lower": 0.003612,
+            "successes": 1,
+            "total": 49,
+            "upper": 0.106935
+          },
+          "true_positive": 1
+        },
+        "iou_0.5": {
+          "f1": 0.007874,
+          "false_negative": 48,
+          "false_positive": 204,
+          "precision": 0.004878,
+          "precision_ci_wilson_95": {
+            "lower": 0.000862,
+            "successes": 1,
+            "total": 205,
+            "upper": 0.027109
+          },
+          "recall": 0.020408,
+          "recall_ci_wilson_95": {
+            "lower": 0.003612,
+            "successes": 1,
+            "total": 49,
+            "upper": 0.106935
+          },
+          "true_positive": 1
+        },
+        "iou_0.7": {
+          "f1": 0.0,
+          "false_negative": 49,
+          "false_positive": 205,
+          "precision": 0.0,
+          "precision_ci_wilson_95": {
+            "lower": 0.0,
+            "successes": 0,
+            "total": 205,
+            "upper": 0.018394
+          },
+          "recall": 0.0,
+          "recall_ci_wilson_95": {
+            "lower": 0.0,
+            "successes": 0,
+            "total": 49,
+            "upper": 0.072698
+          },
+          "true_positive": 0
+        }
+      },
+      "temporal_coverage": {
+        "expected_seconds": 704.988,
+        "false_positive_seconds": 223285.656,
+        "false_positive_seconds_per_hour": 3556.448,
+        "missed_seconds": 100.465,
+        "missed_seconds_per_hour": 1.6,
+        "overlap_seconds": 604.523,
+        "predicted_seconds": 223890.179,
+        "reviewed_hours": 62.783333
+      },
+      "video_presence": {
+        "f1": 0.426966,
+        "false_negative": 0,
+        "false_positive": 102,
+        "precision": 0.271429,
+        "precision_ci_wilson_95": {
+          "lower": 0.204604,
+          "successes": 38,
+          "total": 140,
+          "upper": 0.350461
+        },
+        "recall": 1.0,
+        "recall_ci_wilson_95": {
+          "lower": 0.90819,
+          "successes": 38,
+          "total": 38,
+          "upper": 1.0
+        },
+        "true_negative": 0,
+        "true_positive": 38
+      }
+    },
+    "selfpromo": {
+      "span_metrics": {
+        "iou_0.3": {
+          "f1": 0.0,
+          "false_negative": 59,
+          "false_positive": 159,
+          "precision": 0.0,
+          "precision_ci_wilson_95": {
+            "lower": 0.0,
+            "successes": 0,
+            "total": 159,
+            "upper": 0.02359
+          },
+          "recall": 0.0,
+          "recall_ci_wilson_95": {
+            "lower": 0.0,
+            "successes": 0,
+            "total": 59,
+            "upper": 0.061129
+          },
+          "true_positive": 0
+        },
+        "iou_0.5": {
+          "f1": 0.0,
+          "false_negative": 59,
+          "false_positive": 159,
+          "precision": 0.0,
+          "precision_ci_wilson_95": {
+            "lower": 0.0,
+            "successes": 0,
+            "total": 159,
+            "upper": 0.02359
+          },
+          "recall": 0.0,
+          "recall_ci_wilson_95": {
+            "lower": 0.0,
+            "successes": 0,
+            "total": 59,
+            "upper": 0.061129
+          },
+          "true_positive": 0
+        },
+        "iou_0.7": {
+          "f1": 0.0,
+          "false_negative": 59,
+          "false_positive": 159,
+          "precision": 0.0,
+          "precision_ci_wilson_95": {
+            "lower": 0.0,
+            "successes": 0,
+            "total": 159,
+            "upper": 0.02359
+          },
+          "recall": 0.0,
+          "recall_ci_wilson_95": {
+            "lower": 0.0,
+            "successes": 0,
+            "total": 59,
+            "upper": 0.061129
+          },
+          "true_positive": 0
+        }
+      },
+      "temporal_coverage": {
+        "expected_seconds": 2244.847,
+        "false_positive_seconds": 222095.897,
+        "false_positive_seconds_per_hour": 3537.498,
+        "missed_seconds": 116.085,
+        "missed_seconds_per_hour": 1.849,
+        "overlap_seconds": 2128.762,
+        "predicted_seconds": 224224.659,
+        "reviewed_hours": 62.783333
+      },
+      "video_presence": {
+        "f1": 0.435754,
+        "false_negative": 0,
+        "false_positive": 101,
+        "precision": 0.278571,
+        "precision_ci_wilson_95": {
+          "lower": 0.210986,
+          "successes": 39,
+          "total": 140,
+          "upper": 0.357984
+        },
+        "recall": 1.0,
+        "recall_ci_wilson_95": {
+          "lower": 0.910333,
+          "successes": 39,
+          "total": 39,
+          "upper": 1.0
+        },
+        "true_negative": 0,
+        "true_positive": 39
+      }
+    },
+    "sponsor": {
+      "span_metrics": {
+        "iou_0.3": {
+          "f1": 0.015625,
+          "false_negative": 106,
+          "false_positive": 146,
+          "precision": 0.013514,
+          "precision_ci_wilson_95": {
+            "lower": 0.003714,
+            "successes": 2,
+            "total": 148,
+            "upper": 0.047929
+          },
+          "recall": 0.018519,
+          "recall_ci_wilson_95": {
+            "lower": 0.005093,
+            "successes": 2,
+            "total": 108,
+            "upper": 0.065019
+          },
+          "true_positive": 2
+        },
+        "iou_0.5": {
+          "f1": 0.015625,
+          "false_negative": 106,
+          "false_positive": 146,
+          "precision": 0.013514,
+          "precision_ci_wilson_95": {
+            "lower": 0.003714,
+            "successes": 2,
+            "total": 148,
+            "upper": 0.047929
+          },
+          "recall": 0.018519,
+          "recall_ci_wilson_95": {
+            "lower": 0.005093,
+            "successes": 2,
+            "total": 108,
+            "upper": 0.065019
+          },
+          "true_positive": 2
+        },
+        "iou_0.7": {
+          "f1": 0.015625,
+          "false_negative": 106,
+          "false_positive": 146,
+          "precision": 0.013514,
+          "precision_ci_wilson_95": {
+            "lower": 0.003714,
+            "successes": 2,
+            "total": 148,
+            "upper": 0.047929
+          },
+          "recall": 0.018519,
+          "recall_ci_wilson_95": {
+            "lower": 0.005093,
+            "successes": 2,
+            "total": 108,
+            "upper": 0.065019
+          },
+          "true_positive": 2
+        }
+      },
+      "temporal_coverage": {
+        "expected_seconds": 5786.862,
+        "false_positive_seconds": 218567.97,
+        "false_positive_seconds_per_hour": 3481.306,
+        "missed_seconds": 13.103,
+        "missed_seconds_per_hour": 0.209,
+        "overlap_seconds": 5773.759,
+        "predicted_seconds": 224341.729,
+        "reviewed_hours": 62.783333
+      },
+      "video_presence": {
+        "f1": 0.444444,
+        "false_negative": 0,
+        "false_positive": 100,
+        "precision": 0.285714,
+        "precision_ci_wilson_95": {
+          "lower": 0.21739,
+          "successes": 40,
+          "total": 140,
+          "upper": 0.365484
+        },
+        "recall": 1.0,
+        "recall_ci_wilson_95": {
+          "lower": 0.912378,
+          "successes": 40,
+          "total": 40,
+          "upper": 1.0
+        },
+        "true_negative": 0,
+        "true_positive": 40
+      }
+    }
+  },
+  "generated_at": "2026-09-30T00:00:12.076362+00:00",
+  "limitations": [
+    "Reference labels are SponsorBlock weak labels, so this is not the reviewed benchmark and cannot establish precision for release gates.",
+    "Thresholds are uncalibrated defaults because no reviewed benchmark exists yet.",
+    "The videos are channel-disjoint from training, so the result is a genuine held-out measurement against weak labels."
+  ],
+  "model_file": "smart_segments.int8.onnx",
+  "model_sha256": "1ae4bacd87ce1f1c0bd7f08583fdfc57ecc87f912d39793946bd1a870c3bc303",
+  "schema_version": 1,
+  "thresholds": {
+    "interaction": 0.5,
+    "selfpromo": 0.5,
+    "sponsor": 0.5
+  }
+}

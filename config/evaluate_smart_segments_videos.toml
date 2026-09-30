@@ -1,0 +1,19 @@
+[smart_segment_video_evaluation]
+bundle_directory = "artifacts/smart_segments"
+model_file = "smart_segments.int8.onnx"
+annotations_path = "data/smart_segments/smart_segment_annotations.parquet"
+subtitles_directory = "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/subtitles"
+metadata_directory = "../Flow/ml/sponsor_detection/data/external/scriptsmith_sponsorblock_2024/video_metadata"
+# The 140 benchmark videos: channel-disjoint from every training split.
+review_path = "data/smart_segments/benchmark_review.jsonl"
+output_path = "reports/smart_segments_video_evaluation.json"
+
+categories = ["sponsor", "selfpromo", "interaction"]
+language_prefixes = ["en"]
+max_length = 1024
+overlap_tokens = 128
+batch_size = 8
+merge_gap_ms = 1500
+
+# Uncalibrated defaults; real thresholds come from the reviewed benchmark.
+default_threshold = 0.5
